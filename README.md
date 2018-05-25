@@ -1,6 +1,6 @@
-# qiran
+# vue-shop
 
-> qiran
+> vue-shop
 
 ## Build Setup
 
