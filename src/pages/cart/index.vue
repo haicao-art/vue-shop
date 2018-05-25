@@ -2,10 +2,10 @@
   <div class="carts" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
     <van-checkbox-group class="carts-goods" v-for="(good, index) in goods" :key="index" v-model="checkedGoods">
-      <van-checkbox class="carts-goods__item" :key="good.id" :name="good.id"></van-checkbox>
-      <van-card :title="good.title" :desc="good.desc" :num="good.num" :price="formatPrice(good.sale_price)" :thumb="good.thumb">
+      <van-checkbox class="carts-goods__item" :key="good.spec_id" :name="good.spec_id"></van-checkbox>
+      <van-card :title="good.good_title" :desc="good.spec_title" :num="good.buy_num" :price="formatPrice(good.good_price)" :thumb="good.good_pic">
         <div slot="footer">
-          <van-stepper :default-value="good.num" v-model="good.num" :min="good.min" :max="good.max" :step="good.step" integer disable-input/>
+          <van-stepper :default-value="good.buy_num" v-model="good.buy_num" :min="good.min" :max="good.max" :step="good.step" integer disable-input/>
         </div>
       </van-card>
     </van-checkbox-group>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  import {mapState, mapMutations} from 'vuex'
   import headerTop from '@/components/header/header'
   import { Checkbox, CheckboxGroup, Card, SubmitBar, Stepper } from 'vant';
   export default {
@@ -31,45 +32,46 @@
       return {
         checked: false,
         loading: false,
-        checkedGoods: ['1'],
-        goods: [{
-          id: '1',
-          title: '进口香蕉',
-          desc: '约250g， 2根',
-          sale_price: 200,
-          num: 2,
-          min: 1,
-          max: 100,
-          step: 2,
-          thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg',
-        }, {
-          id: '2',
-          title: '陕西蜜梨',
-          desc: '约600g',
-          sale_price: 690,
-          num: 10,
-          min: 10,
-          step: 10,
-          thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg',
-        }]
+        checkedGoods: [],
+        goods: []
       }
     },
     mounted() {
     },
+    created() {
+    },
+    activated() {
+      this.INIT_CART()
+      let cart_list = this.cartList[1]
+      for(let idx in cart_list) {
+        for(let index in cart_list[idx]) {
+          let good = cart_list[idx][index]
+          this.goods.push(good)
+        }
+      }
+      console.log(cart_list)
+    },
     computed: {
+      ...mapState({
+        cartList: state => state.cart.cartList
+      }),
       submitBarText() {
         let count = this.checkedGoods.length
         return '结算' + (count ? `(${count})` : '')
       },
       totalPrice() {
-        return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? item.sale_price * item.num : 0), 0)
+        return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.spec_id) !== -1 ? item.good_price * item.buy_num : 0), 0)
       }
     },
     methods: {
-      formatPrice(sale_price) {
-        return (sale_price / 100).toFixed(2)
+      ...mapMutations([
+        'INIT_CART'
+      ]),
+      formatPrice(good_price) {
+        return (good_price / 100).toFixed(2)
       },
       onSubmit() {
+        //checkout
         this.$toast('结算中...')
       },
       allChecked() {
@@ -78,7 +80,7 @@
         if(that.checked) {
           //this.checkedGoods.push(this.goods.forEach())
           that.goods.forEach((good, index) => {
-            that.checkedGoods.push(good.id)
+            that.checkedGoods.push(good.spec_id)
           })
         }
       }

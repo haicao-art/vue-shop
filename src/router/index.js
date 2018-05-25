@@ -55,7 +55,8 @@ export default new Router({
       name: 'cart',
       meta:{
         index: 3,
-        title: '我的购物车'
+        title: '我的购物车',
+        keepAlive: true
       },
       component: cart
     }

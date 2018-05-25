@@ -139,9 +139,9 @@ export default {
     this.init(id)
   },
   computed: {
-    ...mapState([
-      'cartList'
-    ]),
+    ...mapState({
+      cartList: state => state.cart.cartList
+    }),
   },
   methods: {
     ...mapMutations([
@@ -190,12 +190,14 @@ export default {
       this.good.showBase = true
     },
     onClickBigBtn() {
+      this.$toast('点击了按钮....')
       this.good.showBase = true
     },
     onBuyClicked(params) {
       console.log(params)
       this.$toast('点击购买按钮')
-      this.ADD_CART({shop_id: 1, good_id: params.goodsId, spec_id: params.selectedSkuComb.id, good_title: params.selectedSkuComb.name, spec_title: params.selectedSkuComb.spec_title, good_price: params.selectedSkuComb.price, buy_num: params.selectedNum})
+      this.ADD_CART({shop_id: 1, good_id: params.goodsId, spec_id: params.selectedSkuComb.id, good_title: this.good.good_title, good_pic: this.good.picture, spec_title: params.selectedSkuComb.spec_title, good_price: params.selectedSkuComb.price, buy_num: params.selectedNum})
+      console.log(this.cartList)
     },
     onAddCartClicked() {
       this.$toast('点击加入购物车按钮')

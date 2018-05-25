@@ -14,7 +14,13 @@ const cart = {
     cartList: {}
   },
   mutations: {
-    ADD_CART: (state, {shop_id, good_id, spec_id, good_title, spec_title, good_price, buy_num}) => {
+    INIT_CART: (state) => {
+      let initCart = getStore('buyCart')
+      if(initCart) {
+        state.cartList = JSON.parse(initCart)
+      }
+    },
+    ADD_CART: (state, {shop_id, good_id, spec_id, good_title, good_pic, spec_title, good_price, buy_num}) => {
       console.log(good_id)
       let cart = state.cartList
       let shop = cart[shop_id] = (cart[shop_id] || {})
@@ -26,7 +32,9 @@ const cart = {
           'buy_num': buy_num,
           'good_id': good_id,
           'good_title': good_title,
+          'good_pic': good_pic,
           'good_price': good_price,
+          'spec_id': spec_id,
           'spec_title': spec_title
         }
       }
