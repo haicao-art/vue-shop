@@ -55,7 +55,9 @@
           this.goods.push(good)
         }
       }
-      this.showSubmitBar = true
+      setTimeout(() => {
+        this.showSubmitBar = true
+      }, 2000)
     },
     created() {
       console.log('cart index created')

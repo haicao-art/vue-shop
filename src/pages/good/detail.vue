@@ -67,7 +67,7 @@
     </van-tabs>
 
     <!-- 底部加入购物车 -->
-    <van-goods-action class="goods-bottom-btn">
+    <van-goods-action class="goods-bottom-btn" v-if="showSubmitBar">
       <van-goods-action-mini-btn icon="wap-home" text="首页" @click="onClickHomeMiniBtn" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="onClickCartMiniBtn" />
       <van-goods-action-big-btn text="加入购物车" @click="onClickBigBtn" />
@@ -100,6 +100,7 @@ export default {
   },
   data() {
     return {
+      showSubmitBar: false,
       disableStepperInput: true,
       quota: 0,   //限购数 0表示不限购
       good: {
@@ -134,6 +135,10 @@ export default {
     //this.$route.meta.title = '青意萱 青意宣 特大号落地紫砂陶瓷花盆红砂紫砂花盆 客厅花卉绿植粗砂花盆 口径19cm 大号'
     let id = this.$route.query.id
     this.init(id)
+
+    setTimeout(() => {
+      this.showSubmitBar = true
+    }, 1500)
   },
   created() {
   },
@@ -274,9 +279,6 @@ export default {
     &-detail {
       margin-bottom: 50px;
       font-size: .5rem;
-    }
-    .van-stepper__input[disabled] {
-      color: #f00 !important;
     }
   }
 </style>
