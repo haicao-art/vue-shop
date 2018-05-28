@@ -6,7 +6,9 @@ Vue.use(Router)
 const home = r => require.ensure([], () => r(require('@/pages/home/home')), 'home')
 const good = r => require.ensure([], () => r(require('@/pages/good/index')), 'good')
 const goodDetail = r => require.ensure([], () => r(require('@/pages/good/detail')), 'goodDetail')
-const cart = r => require.ensure([], () => r(require('@/pages/cart/index')), 'cart')
+const cart = r => require.ensure([], () => r(require('@/pages/cart/cart')), 'cart')
+const cartIndex = r => require.ensure([], () => r(require('@/pages/cart/index')), 'cart_index')
+const comfirmOrder = r => require.ensure([], () => r(require('@/pages/cart/confirmOrder')), 'confirm_order')
 
 const wxfwhLogin = r => require.ensure([], () => r(require('@/pages/weixin/login')), 'wxfwhLogin')
 
@@ -44,8 +46,7 @@ export default new Router({
           name: 'good_detail',
           meta:{
             index: 2,
-            title: '商品详情',
-            keepAlive: true
+            title: '商品详情'
           },
           component: goodDetail
         }
@@ -56,9 +57,27 @@ export default new Router({
       meta:{
         index: 3,
         title: '我的购物车',
-        keepAlive: true
       },
-      component: cart
+      component: cart,
+      children: [
+        {
+          path: 'index',
+          name: 'cart_index',
+          meta:{
+            index: 2,
+            title: '我的购物车'
+          },
+          component: cartIndex
+        },{
+          path: 'confirm',
+          name: 'confirm_order',
+          meta:{
+            index: 3,
+            title: '订单结算',
+          },
+          component: comfirmOrder
+        }
+      ]
     }
   ],
   scrollBehavior (to, from, savedPosition) {

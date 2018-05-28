@@ -6,9 +6,7 @@
 			</keep-alive>
     </transition>
     <transition :name="transitionName" mode="out-in">
-			<keep-alive>
-			  <router-view  v-if="!$route.meta.keepAlive"></router-view>
-			</keep-alive>
+			<router-view  v-if="!$route.meta.keepAlive"></router-view>
     </transition>
   </div>
 </template>
@@ -54,7 +52,7 @@ body {
   padding: 0 1px;
 }
 .van-stepper__input[disabled] {
-  color: #666 !important;
+  color: #f00 !important;
 }
 .slide-fade{
   position: absolute;

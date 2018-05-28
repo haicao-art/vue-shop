@@ -1,7 +1,7 @@
 import fetch from '@/utils/fetch'
 
 /**
- * 登陆
+ * 获取商品列表
  */
  export function getGoodList(params) {
    return fetch({

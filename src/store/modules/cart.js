@@ -11,17 +11,19 @@
 
 const cart = {
   state: {
-    cartList: {}
+    cartList: []
   },
   mutations: {
     INIT_CART: (state) => {
       let initCart = getStore('buyCart')
-      if(initCart) {
+      if(initCart && state.cartList.length == 0) {
+        console.log('init_cart')
         state.cartList = JSON.parse(initCart)
       }
+      console.log(state.cartList)
     },
-    ADD_CART: (state, {shop_id, good_id, spec_id, good_title, good_pic, spec_title, good_price, buy_num}) => {
-      console.log(good_id)
+    ADD_CART: (state, {shop_id, good_id, spec_id, good_title, good_pic, spec_title, good_price, buy_num, ischecked}) => {
+      console.log(spec_id)
       let cart = state.cartList
       let shop = cart[shop_id] = (cart[shop_id] || {})
       let good = shop[good_id] = (shop[good_id] || {})
@@ -35,12 +37,29 @@ const cart = {
           'good_pic': good_pic,
           'good_price': good_price,
           'spec_id': spec_id,
-          'spec_title': spec_title
+          'spec_title': spec_title,
+          'ischecked': ischecked
         }
       }
       state.cartList = { ...cart }
-      setStore('buyCart', state.cartList);
+      setStore('buyCart', state.cartList)
     },
+    //移除购物车
+    REDUCE_CART: (state, {shop_id, good_id, spec_id, buy_num}) => {
+      let cart = state.cartList
+      let shop = cart[shop_id] = (cart[shop_id] || {})
+      let good = shop[good_id] = (shop[good_id] || {})
+      if(good && good[spec_id]) {
+        if(buy_num > 0) {
+          good[spec_id]['buy_num'] -= buy_num
+          state.cartList = { ...cart }
+				  //存入localStorage
+				  setStore('buyCart', state.cartList)
+        } else {
+          good[spec_id] = null
+        }
+      }
+    }
   },
   actions: {
 

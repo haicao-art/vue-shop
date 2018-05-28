@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
   } else {
     //未登录 或者 登录失效 去获取token
     let redirect_url = to.fullPath
-    wxAuthorize('snsapi_base', 'wxlogin', 'http://13dc0d48.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
+    wxAuthorize('snsapi_base', 'wxlogin', 'http://44686a2b.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
       let _url = response.data.url
       window.location.href = _url
     }).catch(error => {

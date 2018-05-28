@@ -44,6 +44,7 @@
       :goods-id="good.id"
       :hide-stock="good_spec.hide_stock"
       :quota="quota"
+      reset-stepper-on-hide
       :close-on-click-overlay="good_spec.loseOnClickOverlay"
       disable-stepper-input=""
       @buy-clicked="onBuyClicked"
@@ -131,12 +132,12 @@ export default {
   },
   mounted() {
     //this.$route.meta.title = '青意萱 青意宣 特大号落地紫砂陶瓷花盆红砂紫砂花盆 客厅花卉绿植粗砂花盆 口径19cm 大号'
+    let id = this.$route.query.id
+    this.init(id)
   },
   created() {
   },
   activated() {
-    let id = this.$route.query.id
-    this.init(id)
   },
   computed: {
     ...mapState({
@@ -184,30 +185,27 @@ export default {
       this.$router.push({ path: '/'})
     },
     onClickCartMiniBtn() {
-      this.$router.push({ path: '/cart'})
+      this.$router.push({ path: '/cart/index'})
     },
     onShowAction() {
       this.good.showBase = true
     },
     onClickBigBtn() {
-      this.$toast('点击了按钮....')
       this.good.showBase = true
     },
+    //立即购买
     onBuyClicked(params) {
-      console.log(params)
-      this.$toast('点击购买按钮')
-      this.ADD_CART({shop_id: 1, good_id: params.goodsId, spec_id: params.selectedSkuComb.id, good_title: this.good.good_title, good_pic: this.good.picture, spec_title: params.selectedSkuComb.spec_title, good_price: params.selectedSkuComb.price, buy_num: params.selectedNum})
-      console.log(this.cartList)
+      this.ADD_CART({shop_id: 1, good_id: params.goodsId, spec_id: params.selectedSkuComb.id, good_title: this.good.good_title, good_pic: this.good.picture, spec_title: params.selectedSkuComb.spec_title, good_price: params.selectedSkuComb.price, buy_num: params.selectedNum,ischecked: true})
+      this.$router.push({ path: '/cart/index'})
     },
-    onAddCartClicked() {
-      this.$toast('点击加入购物车按钮')
-      this.$router.push({ path: '/cart'})
+    onAddCartClicked(params) {
+      this.ADD_CART({shop_id: 1, good_id: params.goodsId, spec_id: params.selectedSkuComb.id, good_title: this.good.good_title, good_pic: this.good.picture, spec_title: params.selectedSkuComb.spec_title, good_price: params.selectedSkuComb.price, buy_num: params.selectedNum,ischecked: false})
     }
   }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .goods {
     background-color: #eee;
     .goback{
@@ -276,6 +274,9 @@ export default {
     &-detail {
       margin-bottom: 50px;
       font-size: .5rem;
+    }
+    .van-stepper__input[disabled] {
+      color: #f00 !important;
     }
   }
 </style>

@@ -3,13 +3,16 @@
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
     <van-checkbox-group class="carts-goods" v-for="(good, index) in goods" :key="index" v-model="checkedGoods">
       <van-checkbox class="carts-goods__item" :key="good.spec_id" :name="good.spec_id"></van-checkbox>
-      <van-card :title="good.good_title" :desc="good.spec_title" :num="good.buy_num" :price="formatPrice(good.good_price)" :thumb="good.good_pic">
+      <van-card :title="good.good_title" desc="" :num="good.buy_num" :price="formatPrice(good.good_price)" :thumb="good.good_pic">
+        <div slot="tags">
+          {{good.spec_title}}
+        </div>
         <div slot="footer">
           <van-stepper :default-value="good.buy_num" v-model="good.buy_num" :min="good.min" :max="good.max" :step="good.step" integer disable-input/>
         </div>
       </van-card>
     </van-checkbox-group>
-    <van-submit-bar :loading="loading" :price="totalPrice" :disabled="!checkedGoods.length" :button-text="submitBarText" @submit="onSubmit">
+    <van-submit-bar v-if="showSubmitBar" :loading="loading" :price="totalPrice" :disabled="!checkedGoods.length" :button-text="submitBarText" @submit="onSubmit">
       <van-checkbox v-model="checked" @change="allChecked()">全选</van-checkbox>
     </van-submit-bar>
   </div>
@@ -17,6 +20,7 @@
 
 <script>
   import {mapState, mapMutations} from 'vuex'
+  import { checkout } from '@/apis/cart'
   import headerTop from '@/components/header/header'
   import { Checkbox, CheckboxGroup, Card, SubmitBar, Stepper } from 'vant';
   export default {
@@ -32,24 +36,35 @@
       return {
         checked: false,
         loading: false,
+        showSubmitBar: false,
         checkedGoods: [],
         goods: []
       }
     },
     mounted() {
-    },
-    created() {
-    },
-    activated() {
+      console.log('cart index mounted')
+      this.goods = []
       this.INIT_CART()
       let cart_list = this.cartList[1]
       for(let idx in cart_list) {
         for(let index in cart_list[idx]) {
           let good = cart_list[idx][index]
+          if(good.ischecked) {
+            this.checkedGoods.push(good.spec_id)
+          }
           this.goods.push(good)
         }
       }
-      console.log(cart_list)
+      this.showSubmitBar = true
+    },
+    created() {
+      console.log('cart index created')
+    },
+    activated() {
+      console.log('cart index activated')
+    },
+    deactivated() {
+      console.log('cart index deactivated')
     },
     computed: {
       ...mapState({
@@ -70,9 +85,20 @@
       formatPrice(good_price) {
         return (good_price / 100).toFixed(2)
       },
+      onClickPlus(params) {
+        console.log('onClickPlus')
+        console.log(params)
+      },
       onSubmit() {
         //checkout
-        this.$toast('结算中...')
+        this.goods.forEach((good, index) => {
+          if(this.checkedGoods.indexOf(good.spec_id) !== -1) {
+            good['ischecked'] = true
+          } else {
+            good['ischecked'] = false
+          }
+        })
+        this.$router.push({ path: '/cart/confirm'})
       },
       allChecked() {
         let that = this
@@ -94,6 +120,7 @@
       background-color: #fff;
       position: relative;
       .van-card {
+        font-size: .5rem;
         margin-left: 25px;
         padding-right: 5px;
         background-color: #fff;
@@ -103,6 +130,7 @@
         width: 32px;
         height: 32px;
         top: 30%;
+        left: 5px;
         margin-bottom: 5px;
         .van-checkbox__label {
           width: 100%;

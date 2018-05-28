@@ -7,10 +7,18 @@ import cart from './modules/cart'
 
 Vue.use(Vuex)
 
+const myPlugin = store => {
+  store.subscribe((mutation, state) => {
+    console.log(mutation)
+    console.log(state)
+  })
+}
+
 export default new Vuex.Store({
     modules: {
       member,
       cart
     },
+    //plugins: [myPlugin],
     getters
 })
