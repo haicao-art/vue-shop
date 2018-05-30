@@ -46,6 +46,7 @@
       this.goods = []
       this.INIT_CART()
       let cart_list = this.cartList[1]
+      console.log(cart_list)
       for(let idx in cart_list) {
         for(let index in cart_list[idx]) {
           let good = cart_list[idx][index]
@@ -57,7 +58,7 @@
       }
       setTimeout(() => {
         this.showSubmitBar = true
-      }, 2000)
+      }, 1400)
     },
     created() {
       console.log('cart index created')

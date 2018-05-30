@@ -11,7 +11,10 @@
 
 const cart = {
   state: {
-    cartList: []
+    cartList: [],
+    choosedAddress: null,
+    addressIndex: null,
+
   },
   mutations: {
     INIT_CART: (state) => {
@@ -46,19 +49,27 @@ const cart = {
     },
     //移除购物车
     REDUCE_CART: (state, {shop_id, good_id, spec_id, buy_num}) => {
+      console.log('REDUCE_CART')
       let cart = state.cartList
       let shop = cart[shop_id] = (cart[shop_id] || {})
       let good = shop[good_id] = (shop[good_id] || {})
       if(good && good[spec_id]) {
         if(buy_num > 0) {
           good[spec_id]['buy_num'] -= buy_num
-          state.cartList = { ...cart }
-				  //存入localStorage
-				  setStore('buyCart', state.cartList)
         } else {
-          good[spec_id] = null
+          //good.remove(spec_id)
+          delete good[spec_id]
         }
       }
+      state.cartList = { ...cart }
+      //存入localStorage
+      setStore('buyCart', state.cartList)
+      console.log('REDUCE_CART SUCCESS')
+    },
+
+    CHOOSE_ADDRESS:(state, {address, index}) => {
+      state.choosedAddress = address
+      state.addressIndex = index
     }
   },
   actions: {

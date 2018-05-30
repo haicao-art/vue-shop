@@ -94,6 +94,7 @@
           this.images = [..._data.images]
           this.noticeText = _data.notice.title
         }).catch(error => {
+          this.$toast('getIndexData')
           this.$toast(error)
         })
 
@@ -103,6 +104,7 @@
           this.list = [..._data.items]
           this.timeout = 500
         }).catch(error => {
+          this.$toast('getGoodList')
           this.$toast(error)
         })
 

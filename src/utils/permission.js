@@ -39,14 +39,14 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     //未登录 或者 登录失效 去获取token
+    console.log('to weixin get code')
     let redirect_url = to.fullPath
-    wxAuthorize('snsapi_base', 'wxlogin', 'http://44686a2b.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
+    wxAuthorize('snsapi_base', 'wxlogin', 'http://ca0bf3b5.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
       let _url = response.data.url
       window.location.href = _url
     }).catch(error => {
       console.log(error)
     })
-    next()
     return false
   }
 })

@@ -8,12 +8,15 @@
     <transition :name="transitionName" mode="out-in">
 			<router-view  v-if="!$route.meta.keepAlive"></router-view>
     </transition>
+    <svg-icon></svg-icon>
   </div>
 </template>
 
 <script>
+import svgIcon from '@/components/common/svg'
 export default {
   components: {
+    svgIcon
   },
   data() {
     return {
@@ -53,6 +56,10 @@ body {
 }
 .van-stepper__input[disabled] {
   color: #f00 !important;
+}
+.van-toast--default {
+  min-width: 120px;
+  width: auto;
 }
 .slide-fade{
   position: absolute;

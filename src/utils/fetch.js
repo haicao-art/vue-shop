@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // 创建axios实例
@@ -53,6 +54,13 @@ instance.interceptors.response.use(
   response => {
     let res = response.data
     if(res.code != 0) {
+      console.log(res)
+      if(res.code == 1100) {
+        //登录过期
+        store.dispatch('FedLogOut').then(() => {
+          location.reload();
+        });
+      }
       return Promise.reject(res);
     } else {
       return response.data;

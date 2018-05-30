@@ -21,7 +21,7 @@
     methods: {
       async wxfwhLogin(_code) {
         await this.$store.dispatch('wxfwhLogin', _code).then(respone => {
-          this.$router.push({ 'path': this.$route.query.redirect_url || '/'})
+          this.$router.replace({ 'path': this.$route.query.redirect_url || '/'})
         }).catch(error => {
           console.log(error)
         })

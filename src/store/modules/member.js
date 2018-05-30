@@ -52,6 +52,13 @@ const member = {
           })
         })
       },
+      async FedLogOut({ commit }) {
+        await new Promise((resolve, reject) => {
+          commit('SET_TOKEN', '')
+          removeToken()
+          resolve()
+        })
+      }
     }
 }
 
