@@ -1,9 +1,9 @@
 import fetch from '@/utils/fetch'
 
 /**
- * 登陆
+ * 授权
  */
- export function wxAuthorize(scope, state, redirect_url) {
+  export function wxAuthorize(scope, state, redirect_url) {
    return fetch({
      url: 'weixin/wxAuthorize',
      method: 'POST',
@@ -14,14 +14,14 @@ import fetch from '@/utils/fetch'
        redirect_url: redirect_url,
      }
    });
- }
+  }
 
  /**
-  * 获取用户信息
+  * 登录
   * @param  {[type]} code        微信获取的code值
   * @return {[type]}              [description]
   */
- export function wxfwhLogin(code) {
+  export function wxfwhLogin(code) {
    return fetch({
      url: 'weixin/wxfwhLogin',
      method: 'POST',
@@ -30,4 +30,20 @@ import fetch from '@/utils/fetch'
        code: code,
      }
    });
- }
+  }
+
+  /**
+   * 获取会员信息
+   * @param  {[type]} token [description]
+   * @return {[type]}       [description]
+   */
+  export function info(token) {
+   return fetch({
+     url: 'member/info',
+     method: 'POST',
+     data: {
+       version: process.env.INTERFACE,
+       token: token,
+     }
+   });
+  }

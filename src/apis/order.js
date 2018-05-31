@@ -1,30 +1,30 @@
 import fetch from '@/utils/fetch'
 
 /**
- * 获取商品列表
+ * 订单列表
  */
- export function getGoodList(params) {
+ export function list(params) {
    return fetch({
-     url: 'good/index',
+     url: 'order/index',
      method: 'POST',
      data: {
        version: process.env.INTERFACE,
        token: params.token,
-       q: params.q || '',
-       page: params.page || 1,
+       state: params.state,
+       page: params.page,
        limit: params.limit
      }
    });
  }
 
- export function getGoodInfo(params) {
+ export function detail(params) {
    return fetch({
-     url: 'good/info',
+     url: 'order/detail',
      method: 'POST',
      data: {
        version: process.env.INTERFACE,
        token: params.token,
-       good_id: params.id
+       order_id: params.order_id,
      }
    });
  }

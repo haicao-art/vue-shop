@@ -3,13 +3,20 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+
+const template = r => require.ensure([], () => r(require('@/pages/common/index')), 'template')
+
 const home = r => require.ensure([], () => r(require('@/pages/home/home')), 'home')
-const good = r => require.ensure([], () => r(require('@/pages/good/index')), 'good')
 const goodDetail = r => require.ensure([], () => r(require('@/pages/good/detail')), 'goodDetail')
 const cart = r => require.ensure([], () => r(require('@/pages/cart/cart')), 'cart')
 const cartIndex = r => require.ensure([], () => r(require('@/pages/cart/index')), 'cart_index')
 const comfirmOrder = r => require.ensure([], () => r(require('@/pages/cart/confirmOrder')), 'confirm_order')
 const chooseAddress = r => require.ensure([], () => r(require('@/pages/cart/children/chooseAddress')), 'choose_address')
+
+const member = r => require.ensure([], () => r(require('@/pages/member/index')), 'member')
+
+const order = r => require.ensure([], () => r(require('@/pages/order/index')), 'order')
+const detail = r => require.ensure([], () => r(require('@/pages/order/detail')), 'detail')
 
 const wxfwhLogin = r => require.ensure([], () => r(require('@/pages/weixin/login')), 'wxfwhLogin')
 
@@ -36,7 +43,7 @@ export default new Router({
     }, {
       path: '/good',
       name: 'good',
-      component: good,
+      component: template,
       meta:{
         index: 2,
         title: '商品列表'
@@ -88,6 +95,50 @@ export default new Router({
               component: chooseAddress
             }
           ]
+        }
+      ]
+    },{
+      path: '/member',
+      name: 'member',
+      meta:{
+        index: 5,
+        title: '个人中心',
+        keepAlive: true,
+      },
+      component: template,
+      children: [
+        {
+          path: 'index',
+          name: 'member_index',
+          meta: {
+            index: 6,
+            title: '个人中心',
+            keepAlive: true,
+          },
+          component: member
+        }
+      ]
+    },{
+      path: '/order',
+      name: 'order',
+      component: template,
+      children: [
+        {
+          path: 'index',
+          name: 'order_index',
+          meta: {
+            index: 7,
+            title: '订单列表',
+          },
+          component: order
+        }, {
+          path: 'detail',
+          name: 'order_detail',
+          meta: {
+            index: 8,
+            title: '订单详情',
+          },
+          component: detail
         }
       ]
     }

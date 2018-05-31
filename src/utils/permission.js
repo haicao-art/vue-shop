@@ -8,7 +8,7 @@
 
 import router from './../router'
 import store from './../store'
-import { getToken } from '@/utils/auth' // 验权
+import { setToken, getToken } from '@/utils/auth' // 验权
 import { wxAuthorize } from '@/apis/member'
 
 /**
@@ -43,10 +43,11 @@ router.beforeEach((to, from, next) => {
     let redirect_url = to.fullPath
     wxAuthorize('snsapi_base', 'wxlogin', 'http://ca0bf3b5.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
       let _url = response.data.url
-      window.location.href = _url
+      //window.location.href = _url
     }).catch(error => {
       console.log(error)
     })
+    setToken('b|26dac133a3532531e3004c7cdfa038');
     return false
   }
 })

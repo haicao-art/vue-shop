@@ -32,7 +32,7 @@
       <van-cell-group>
         <van-card desc="" :num="good.buy_num" price="1200" :thumb="good.good_pic">
           <div slot="title" class="carts-goods-title">
-            <van-tag mark plain type="danger" class="carts-tag-item">{{good.good_trade_type}}</van-tag>{{good.good_title}}{{good.price}}
+            <van-tag mark plain type="danger" class="carts-tag-item">{{good.good_trade_type}}</van-tag>{{good.good_title}}
           </div>
           <div slot="desc" class="carts-goods-desc">
             {{formatPrice(good.price)}}<span class="carts-goods-desc-num"> x {{good.buy_num}}</span>
@@ -225,13 +225,14 @@
           const order_id = _data.order_id
           orderPay({token: token, order_id: order_id}).then(response => {
             let _data = response.data
+            console.log(_data.prePay)
             wx.ready(function() {
               wx.chooseWXPay({
-                timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                nonceStr: '', // 支付签名随机串，不长于 32 位
-                package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                paySign: '', // 支付签名
+                timestamp: _data.prePay.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                nonceStr: _data.prePay.nonceStr, // 支付签名随机串，不长于 32 位
+                package: _data.prePay.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                signType: _data.prePay.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                paySign: _data.prePay.paySign, // 支付签名
                 success: function (res) {
                   // 支付成功后的回调函数
                   console.log('来这里了....表示支付失败')

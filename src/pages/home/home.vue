@@ -71,7 +71,9 @@
     data() {
       return {
         q: '',
+        ready: false,
         page: 1,
+        limit: 20,
         total_page: 1,
         timeout: 2000,
         showLoading: true,
@@ -98,11 +100,14 @@
           this.$toast(error)
         })
 
-        await getGoodList({token: token, page: this.page}).then(respone => {
+        await getGoodList({token: token, page: this.page, limit: this.limit}).then(respone => {
           let _data = respone.data
-          this.total_page = _data.total_page
           this.list = [..._data.items]
-          this.timeout = 500
+          if(_data.items.length < this.limit) {
+            this.listLoading = false
+            this.finished = true
+          }
+          this.ready = true
         }).catch(error => {
           this.$toast('getGoodList')
           this.$toast(error)
@@ -114,28 +119,29 @@
         this.$toast(this.q)
       },
       onLoad() {
-        setTimeout(() => {
-          this.page = this.page + 1
-          if(this.page > this.total_page) {
-            this.listLoading = false
-            this.finished = true
-          } else {
-            let token = this.$store.getters.token
-            getGoodList({token: token, page: this.page}).then(respone => {
-              let _data = respone.data
-              this.total_page = _data.total_page    //总页数
-              this.timeout = 500
-              if(_data.items.length > 0) {
-                this.list.push(..._data.items)
-              } else {
-                this.finished = true
-              }
+        if(this.ready) {
+          setTimeout(() => {
+            this.page = this.page + 1
+            if(this.page > this.total_page) {
               this.listLoading = false
-            }).catch(error => {
-              this.$toast(error)
-            })
-          }
-        }, this.timeout)
+              this.finished = true
+            } else {
+              let token = this.$store.getters.token
+              getGoodList({token: token, page: this.page, limit: this.limit}).then(respone => {
+                let _data = respone.data
+                if(_data.items.length < this.limit) {
+                  this.finished = true
+                }
+                if(_data.items.length > 0) {
+                  this.list.push(..._data.items)
+                }
+                this.listLoading = false
+              }).catch(error => {
+                this.$toast(error)
+              })
+            }
+          }, this.timeout)
+        }
       }
     }
   }

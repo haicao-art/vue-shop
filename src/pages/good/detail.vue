@@ -56,13 +56,7 @@
         <div v-html="good_extend.good_detail"></div>
       </van-tab>
       <van-tab title="评论">
-        评论 <br />
-        评论 <br />
-        评论 <br />
-        评论 <br />
-        评论 <br />
-        评论 <br />
-        评论 <br />
+        
       </van-tab>
     </van-tabs>
 
