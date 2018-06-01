@@ -1,6 +1,6 @@
 <template>
   <div class="orders_container" v-wechat-title="$route.meta.title">
-    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
+    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl="/order/index"></header-top>
     <section class="orders">
       <section class="orders-top-message">
         <span>{{order.order_status}}</span>

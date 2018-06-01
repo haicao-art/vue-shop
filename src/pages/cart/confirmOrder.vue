@@ -1,6 +1,6 @@
 <template>
   <div class="carts" v-wechat-title="$route.meta.title">
-    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
+    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl='/cart/index'></header-top>
 
     <router-link :to="{path: 'confirm/chooseAddress'}" class="address_container">
       <section class="address">

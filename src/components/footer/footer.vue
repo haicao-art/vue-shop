@@ -17,15 +17,22 @@
     },
     data() {
       return {
-        active: 0
+        active: this.myActive
       }
     },
     mounted() {
-
+    },
+    activated() {
+      this.active = this.myActive
     },
     props: [
-
+      'myActive'
     ],
+    watch: {
+      myActive(val) {
+        this.active = val
+      }
+    },
     methods: {
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="carts" v-wechat-title="$route.meta.title">
-    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
+    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl='/'></header-top>
     <van-checkbox-group class="carts-goods" v-for="(good, index) in goods" :key="index" v-model="checkedGoods">
       <van-checkbox class="carts-goods__item" :key="good.spec_id" :name="good.spec_id"></van-checkbox>
       <van-card :title="good.good_title" desc="" :num="good.buy_num" :price="formatPrice(good.good_price)" :thumb="good.good_pic">

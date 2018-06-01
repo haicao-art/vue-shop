@@ -18,22 +18,27 @@
         </van-tabbar>
       </section>
     </section>
+
+    <!-- 底部导航栏 -->
+    <footer-bottom v-if="showFooterBottom" :myActive="2"></footer-bottom>
   </div>
 </template>
 
 <script>
   import { info } from '@/apis/member'
   import headerTop from '@/components/header/header'
+  import footerBottom from '@/components/footer/footer'
   import {Tabbar, TabbarItem, Cell} from 'vant'
   export default {
     components: {
-      headerTop,
+      headerTop, footerBottom,
       [Tabbar.name]: Tabbar,
       [TabbarItem.name]: TabbarItem,
       [Cell.name]: Cell,
     },
     data() {
       return {
+        showFooterBottom: false,
         member: [],
         order_count: {
           unpay: 0,
@@ -43,6 +48,9 @@
     mounted() {
       console.log('member index mounted')
       this.init()
+      setTimeout(() => {
+        this.showFooterBottom = true
+      }, 1500)
     },
     created() {
       console.log('member index created')
@@ -50,9 +58,13 @@
     activated() {
       console.log(this.member)
       console.log('member index activated')
+      setTimeout(() => {
+        this.showFooterBottom = true
+      }, 1500)
     },
     deactivated() {
       console.log('member index deactivated')
+      this.showFooterBottom = false
     },
     methods: {
       async init() {

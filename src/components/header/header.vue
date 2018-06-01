@@ -29,12 +29,17 @@
       }
     },
     mounted() {
-
+      console.log(this.navbarTitle)
+      console.log(this.gobackUrl)
     },
-    props: ['signInUp', 'navbarTitle', 'leftArrow', 'leftText', 'rightText', 'noticeText'],
+    props: ['signInUp', 'navbarTitle', 'leftArrow', 'leftText', 'rightText', 'noticeText', 'gobackUrl'],
     methods: {
       goBackMethod() {
-        window.history.length > 1 ? this.$router.go(-1) : this.$router.push({path: '/'})
+        if(this.gobackUrl) {
+          this.$router.replace({path: this.gobackUrl})
+        } else {
+          window.history.length > 1 ? this.$router.go(-1) : this.$router.push({path: '/'})
+        }
       },
       onClickRight() {
         this.$toast('ok')

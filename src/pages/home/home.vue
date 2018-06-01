@@ -9,13 +9,13 @@
         </van-search>
 
         <!-- 通知公告 -->
-        <transition name="fade" slot="notice" appear>
+        <section slot="notice">
           <van-notice-bar
             :text="noticeText"
-            mode="closeable"
+            scrollable
             left-icon="http://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png"
           />
-        </transition>
+        </section>
 
       </header-top>
 
@@ -39,7 +39,7 @@
       <div class="hairline" v-if="finished">我是有底线的</div>
 
       <!-- 底部导航栏 -->
-      <footer-bottom></footer-bottom>
+      <footer-bottom :myActive="0"></footer-bottom>
     </div>
     <loading v-show="showLoading"></loading>
   </div>
@@ -82,7 +82,7 @@
         offset: 100,    //list  滚动条与底部距离小于 offset 时触发load事件
         list: [],
         images: [],
-        noticeText: ''
+        noticeText: 'notice 青意萱 青意宣 特大号落地紫砂陶瓷花盆红砂紫砂花盆 客厅花卉绿植粗砂花盆 口径19cm 大号青意萱 青意宣 特大号落地紫砂陶瓷花盆红砂紫砂花盆 客厅花卉绿植粗砂花盆 口径19cm 大号'
       }
     },
     mounted() {
@@ -94,7 +94,7 @@
         await getIndexData({token: token}).then(respone => {
           let _data = respone.data;
           this.images = [..._data.images]
-          this.noticeText = _data.notice.title
+          //this.noticeText = _data.notice.title
         }).catch(error => {
           this.$toast('getIndexData')
           this.$toast(error)
