@@ -49,7 +49,7 @@
           <div class="orders-footer">
             <van-button size="small" type="danger" v-if="order.order_status == '待付款'">立即支付</van-button>
             <van-button size="small" type="danger" v-if="order.order_status == '已完成' || order.order_status == '已取消'">删除订单</van-button>
-            <van-button size="small" v-if="order.order_status == '已完成' || order.order_status == '已取消'">查看物流</van-button>
+            <van-button size="small" v-if="order.order_status == '已完成' || order.order_status == '已取消'" @click="goto({path: '/order/logistics', query: {id: order.id}})">查看物流</van-button>
           </div>
         </section>
       </van-list>
@@ -110,7 +110,7 @@
       '$route' (to, from) {
         this.state = to.query.state || ''
         this.finished = true
-        this.listLoading = true
+        this.listLoading = false
         this.init()
       }
     },
@@ -132,6 +132,10 @@
       },
       formatPrice(good_price) {
         return '￥' + (good_price / 100).toFixed(2)
+      },
+      goto(params) {
+        console.log(params)
+        this.$router.push({path: params.path, query: {id: params.query.id}})
       },
       onLoad() {
         if(this.ready) {

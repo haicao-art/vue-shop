@@ -2,7 +2,7 @@
   <div class="carts" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
 
-    <router-link :to="{path: 'confirm/chooseAddress', query: {id: 1, sign: '123132132'}}" class="address_container">
+    <router-link :to="{path: 'confirm/chooseAddress'}" class="address_container">
       <section class="address">
         <div class="address_empty_left">
           <svg class="location_icon">
@@ -15,7 +15,7 @@
               <span>{{choosedAddress.mobile}}</span>
             </header>
             <div class="address_detail">
-              <span>{{choosedAddress.provice}} {{choosedAddress.city}} {{choosedAddress.district}} {{choosedAddress.address}}</span>
+              <span>{{choosedAddress.address}}</span>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@
         <van-cell title="支付方式"></van-cell>
         <div class="carts-choose_type_container">
           <ul>
-            <li v-for="item in payments" :key="item.id" :class="{choose: payment.id === item.id}">
+            <li v-for="item in payments" :key="item.id" :class="{choose: payment_id === item.id}">
               <span>{{item.title}}</span>
               <svg class="address_empty_right" @click="choosePayWay(item)">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select"></use>
@@ -114,7 +114,8 @@
         showPayment: false,
         checked: false,
         loading: false,
-        payment: [],
+        payment_id: 1,
+        payment: null,
         good_price: 100,
         freight: 0,
         tax_price: 0,
@@ -174,6 +175,11 @@
           this.freight = _data.freight
           this.tax_price = _data.tax_price
           this.goods = _data.goods
+          _data.payments.map(item => {
+            if(item.default) {
+              this.payment = item
+            }
+          })
           this.payments = _data.payments
         }).catch(error => {
           console.log('checout error')
@@ -193,21 +199,26 @@
           duration: 0,
           forbidClick: true,
           loadingType: 'spinner',
-          message: '加载中...'
+          message: '正在发送请求...'
         })
         console.log('开始准备提交订单')
         if(!this.choosedAddress) {
           console.log('请选择收货地址')
           return
         }
+        if(!this.payment) {
+          console.log('请选择支付方式')
+          return
+        }
+        console.log(this.payment)
         //创建成功 调用支付接口 清除state状态
         let token = this.$store.getters.token
         await orders({token: token, entities: this.entities, consignee_id: this.choosedAddress.id, payment: this.payment}).then(response => {
-          this.$toast.loading({
-            duration: 0,
+          this.$toast.success({
+            duration: 3000,
             forbidClick: true,
             loadingType: 'spinner',
-            message: '订单创建成功~'
+            message: '订单创建成功'
           })
           //清除state localStorage
           this.entities.forEach((item, index) => {
@@ -216,12 +227,14 @@
           return response
         }).then(response => {
           let _data = response.data
-          this.$toast.loading({
-            duration: 0,
-            forbidClick: true,
-            loadingType: 'spinner',
-            message: '正在发起支付请求'
-          })
+          setTimeout(() => {
+            this.$toast.loading({
+              duration: 0,
+              forbidClick: true,
+              loadingType: 'spinner',
+              message: '正在发起支付请求'
+            })
+          }, 1000)
           const order_id = _data.order_id
           orderPay({token: token, order_id: order_id}).then(response => {
             let _data = response.data
@@ -278,7 +291,8 @@
       //选择付款方式
       choosePayWay(payment){
         //this.showPayment = !this.showPayment;
-        this.payment = payment;
+        this.payment_id = payment.id
+        this.payment = payment
       },
     }
   }

@@ -5,6 +5,7 @@ Vue.use(Router)
 
 
 const template = r => require.ensure([], () => r(require('@/pages/common/index')), 'template')
+const icon = r => require.ensure([], () => r(require('@/pages/common/icon')), 'icon')
 
 const home = r => require.ensure([], () => r(require('@/pages/home/home')), 'home')
 const goodDetail = r => require.ensure([], () => r(require('@/pages/good/detail')), 'goodDetail')
@@ -12,11 +13,14 @@ const cart = r => require.ensure([], () => r(require('@/pages/cart/cart')), 'car
 const cartIndex = r => require.ensure([], () => r(require('@/pages/cart/index')), 'cart_index')
 const comfirmOrder = r => require.ensure([], () => r(require('@/pages/cart/confirmOrder')), 'confirm_order')
 const chooseAddress = r => require.ensure([], () => r(require('@/pages/cart/children/chooseAddress')), 'choose_address')
+const addAddress = r => require.ensure([], () => r(require('@/pages/cart/children/addAddress')), 'add_address')
+const editAddress = r => require.ensure([], () => r(require('@/pages/cart/children/editAddress')), 'edit_address')
 
 const member = r => require.ensure([], () => r(require('@/pages/member/index')), 'member')
 
 const order = r => require.ensure([], () => r(require('@/pages/order/index')), 'order')
 const detail = r => require.ensure([], () => r(require('@/pages/order/detail')), 'detail')
+const logistics = r => require.ensure([], () => r(require('@/pages/order/logistics')), 'logistics')
 
 const wxfwhLogin = r => require.ensure([], () => r(require('@/pages/weixin/login')), 'wxfwhLogin')
 
@@ -92,9 +96,32 @@ export default new Router({
                 index: 4,
                 title: '我的收货地址',
               },
-              component: chooseAddress
+              component: chooseAddress,
+              children: [
+                {
+                  path: 'addAddress',
+                  name: 'add_address',
+                  meta:{
+                    index: 5,
+                    title: '新增收货地址',
+                  },
+                  component: addAddress
+                }, {
+                  path: 'editAddress',
+                  name: 'edit_address',
+                  meta:{
+                    index: 6,
+                    title: '编辑收货地址',
+                  },
+                  component: editAddress
+                }
+              ]
             }
           ]
+        }, {
+          path: '*',
+          name: 'other',
+          redirect: '/cart/index',
         }
       ]
     },{
@@ -139,8 +166,24 @@ export default new Router({
             title: '订单详情',
           },
           component: detail
+        }, {
+          path: 'logistics',
+          name: 'order_logistics',
+          meta: {
+            index: 9,
+            title: '订单物流信息',
+          },
+          component: logistics
         }
       ]
+    }, {
+      path: '/icon',
+      name: 'icon',
+      meta: {
+        index: 8,
+        title: 'icon',
+      },
+      component: icon,
     }
   ],
   scrollBehavior (to, from, savedPosition) {

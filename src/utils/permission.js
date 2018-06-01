@@ -29,6 +29,8 @@ const whiteList = [
 ]
 
 router.beforeEach((to, from, next) => {
+  console.log(to)
+  console.log(from)
   if(whiteList.indexOf(to.path) !== -1) {
     next()
   } else if(getToken()) {
@@ -41,13 +43,13 @@ router.beforeEach((to, from, next) => {
     //未登录 或者 登录失效 去获取token
     console.log('to weixin get code')
     let redirect_url = to.fullPath
-    wxAuthorize('snsapi_base', 'wxlogin', 'http://ca0bf3b5.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
+    wxAuthorize('snsapi_base', 'wxlogin', 'http://ccff845f.ngrok.io/wxfwhLogin?redirect_url=' + redirect_url).then(response => {
       let _url = response.data.url
       //window.location.href = _url
     }).catch(error => {
       console.log(error)
     })
-    setToken('b|26dac133a3532531e3004c7cdfa038');
+    setToken('b|26dac133a3532531e3004c7cdfa038')
     return false
   }
 })

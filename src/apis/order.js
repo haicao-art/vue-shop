@@ -28,3 +28,15 @@ import fetch from '@/utils/fetch'
      }
    });
  }
+
+ export function logistics(params) {
+   return fetch({
+     url: 'order/logistics',
+     method: 'POST',
+     data: {
+       version: process.env.INTERFACE,
+       token: params.token,
+       order_id: params.order_id,
+     }
+   });
+ }

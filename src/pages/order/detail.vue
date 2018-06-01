@@ -2,8 +2,9 @@
   <div class="orders_container" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
     <section class="orders">
-      <br />
-
+      <section class="orders-top-message">
+        <span>{{order.order_status}}</span>
+      </section>
       <!-- 收货地址 -->
       <section class="address_container">
         <div class="address_empty_left">
@@ -16,7 +17,7 @@
               <span>{{order_consignee.mobile}}</span>
             </header>
             <div class="address_detail">
-              <span>{{order_consignee.provice}} {{order_consignee.city}} {{order_consignee.district}} {{order_consignee.address}}</span>
+              <span>{{order_consignee.province}} {{order_consignee.city}} {{order_consignee.district}} {{order_consignee.address}}</span>
             </div>
           </div>
         </div>
@@ -25,7 +26,7 @@
       <!-- 商品信息 -->
       <div class="orders-goods" v-for="(good, index) in order_goods" :key="index">
         <van-cell-group>
-          <van-card desc="" :num="good.buy_num" price="1200" :thumb="good.good_pic">
+          <van-card desc="" :num="good.buy_num" :thumb="good.good_pic">
             <div slot="title" class="goods-title size12">
               <van-tag mark plain type="danger" class="tag-item" v-if="good.good_trade_type">{{good.good_trade_type}}</van-tag>{{good.good_title}}
             </div>
@@ -150,6 +151,15 @@
 <style lang="less" scoped>
   .orders_container {
     .orders {
+      &-top-message {
+        display: flex;
+        line-height: 4rem;
+        background-color: #f66;
+        padding: .4rem;
+        span {
+          color: #fff;
+        }
+      }
       .size12 {
         font-size: .55rem;
       }

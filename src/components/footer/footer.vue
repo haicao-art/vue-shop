@@ -3,7 +3,6 @@
     <van-tabbar v-model="active">
       <van-tabbar-item icon="wap-home" :to="{path: '/'}">首页</van-tabbar-item>
       <van-tabbar-item icon="search" :to="{path: '/search'}">搜索</van-tabbar-item>
-      <van-tabbar-item icon="records" :to="{path: '/orders/index'}">订单</van-tabbar-item>
       <van-tabbar-item icon="contact" :to="{path: '/member/index'}">个人中心</van-tabbar-item>
     </van-tabbar>
   </footer>
