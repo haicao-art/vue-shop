@@ -1,18 +1,20 @@
 <template>
   <div class="carts" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl='/'></header-top>
-    <van-checkbox-group class="carts-goods" v-for="(good, index) in goods" :key="index" v-model="checkedGoods">
-      <van-checkbox class="carts-goods__item" :key="good.spec_id" :name="good.spec_id"></van-checkbox>
-      <van-card :title="good.good_title" desc="" :num="good.buy_num" :price="formatPrice(good.good_price)" :thumb="good.good_pic">
-        <div slot="tags">
-          {{good.spec_title}}
-        </div>
-        <div slot="footer">
-          <van-stepper :default-value="good.buy_num" v-model="good.buy_num" :min="good.min" :max="good.max" :step="good.step" integer disable-input/>
-        </div>
-      </van-card>
-    </van-checkbox-group>
-    <van-submit-bar v-if="showSubmitBar" :loading="loading" :price="totalPrice" :disabled="!checkedGoods.length" :button-text="submitBarText" @submit="onSubmit">
+    <section class="content">
+      <van-checkbox-group class="carts-goods" v-for="(good, index) in goods" :key="index" v-model="checkedGoods">
+        <van-checkbox class="carts-goods__item" :key="good.spec_id" :name="good.spec_id"></van-checkbox>
+        <van-card :title="good.good_title" desc="" :num="good.buy_num" :price="formatPrice(good.good_price)" :thumb="good.good_pic">
+          <div slot="tags">
+            {{good.spec_title}}
+          </div>
+          <div slot="footer">
+            <van-stepper :default-value="good.buy_num" v-model="good.buy_num" :min="good.min" :max="good.max" :step="good.step" integer disable-input/>
+          </div>
+        </van-card>
+      </van-checkbox-group>
+    </section>
+    <van-submit-bar class="submitBar" :loading="loading" :price="totalPrice" :disabled="!checkedGoods.length" :button-text="submitBarText" @submit="onSubmit">
       <van-checkbox v-model="checked" @change="allChecked()">全选</van-checkbox>
     </van-submit-bar>
   </div>
@@ -56,9 +58,6 @@
           this.goods.push(good)
         }
       }
-      setTimeout(() => {
-        this.showSubmitBar = true
-      }, 1400)
     },
     created() {
       console.log('cart index created')
@@ -117,14 +116,17 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .carts {
+    height: 100%;
+    .content {
+      height: 100%;
+    }
     &-goods {
       background-color: #fff;
-      position: relative;
       .van-card {
         font-size: .5rem;
-        margin-left: 25px;
+        margin: 0 0 0 25px;
         padding-right: 5px;
         background-color: #fff;
       }
@@ -157,6 +159,11 @@
       .van-checkbox {
         margin-left: 5px;
       }
+    }
+    .submitBar {
+      position: -webkit-sticky;
+      position: sticky;
+      bottom: 0;
     }
   }
 </style>

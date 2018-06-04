@@ -8,6 +8,9 @@ const template = r => require.ensure([], () => r(require('@/pages/common/index')
 const icon = r => require.ensure([], () => r(require('@/pages/common/icon')), 'icon')
 
 const home = r => require.ensure([], () => r(require('@/pages/home/home')), 'home')
+const search = r => require.ensure([], () => r(require('@/pages/search/index')), 'search')
+const searchList = r => require.ensure([], () => r(require('@/pages/search/list')), 'search_list')
+
 const goodDetail = r => require.ensure([], () => r(require('@/pages/good/detail')), 'goodDetail')
 const cart = r => require.ensure([], () => r(require('@/pages/cart/cart')), 'cart')
 const cartIndex = r => require.ensure([], () => r(require('@/pages/cart/index')), 'cart_index')
@@ -17,6 +20,9 @@ const addAddress = r => require.ensure([], () => r(require('@/pages/cart/childre
 const editAddress = r => require.ensure([], () => r(require('@/pages/cart/children/editAddress')), 'edit_address')
 
 const member = r => require.ensure([], () => r(require('@/pages/member/index')), 'member')
+const addressList = r => require.ensure([], () => r(require('@/pages/member/address')), 'address')
+const memberAddAddress = r => require.ensure([], () => r(require('@/pages/member/children/addAddress')), 'member_add_address')
+const memberEditAddress = r => require.ensure([], () => r(require('@/pages/member/children/editAddress')), 'member_edit_address')
 
 const order = r => require.ensure([], () => r(require('@/pages/order/index')), 'order')
 const detail = r => require.ensure([], () => r(require('@/pages/order/detail')), 'detail')
@@ -36,6 +42,34 @@ export default new Router({
         keepAlive: true
       },
       component: home
+    }, {
+      path: '/search',
+      name: 'search',
+      meta:{
+        index: 1,
+        title: '搜索'
+      },
+      component: template,
+      children: [
+        {
+          path: 'index',
+          name: 'search_index',
+          meta:{
+            index: 1,
+            title: '搜索'
+          },
+          component: search
+        },
+        {
+          path: 'list',
+          name: 'search_list',
+          meta:{
+            index: 1,
+            title: '搜索详情'
+          },
+          component: searchList
+        }
+      ]
     }, {
       path: '/wxfwhLogin',
       name: 'wxfwhLogin',
@@ -70,6 +104,7 @@ export default new Router({
         index: 3,
         title: '我的购物车',
       },
+      redirect: '/cart/index',
       component: cart,
       children: [
         {
@@ -143,6 +178,33 @@ export default new Router({
             keepAlive: true,
           },
           component: member
+        }, {
+          path: 'address',
+          name: 'address_list',
+          meta: {
+            index: 7,
+            title: '收货地址管理',
+          },
+          component: addressList,
+          children: [
+            {
+              path: 'addAddress',
+              name: 'add_address',
+              meta:{
+                index: 5,
+                title: '新增收货地址',
+              },
+              component: memberAddAddress
+            }, {
+              path: 'editAddress',
+              name: 'edit_address',
+              meta:{
+                index: 6,
+                title: '编辑收货地址',
+              },
+              component: memberEditAddress
+            }
+          ]
         }
       ]
     },{

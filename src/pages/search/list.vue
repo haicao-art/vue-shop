@@ -1,43 +1,16 @@
 <template>
-  <div class="container" v-show="!showLoading" v-wechat-title="$route.meta.title">
-    <header-top>
-      <van-search slot="search"
-        v-model="q"
-        placeholder="请输入商品名称"
-        @search="onSearch">
-      </van-search>
-
-      <!-- 通知公告 -->
-      <section slot="notice">
-        <van-notice-bar
-          :text="noticeText"
-          scrollable
-          left-icon="http://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png"
-        />
-      </section>
-    </header-top>
-
-    <!-- 轮播图 -->
-    <van-swipe :autoplay="3000" class="swipe">
-      <van-swipe-item v-for="(image, index) in images" :key="index" class="swipe-item">
-        <img :src="image" />
-      </van-swipe-item>
-    </van-swipe>
+  <div class="container" v-wechat-title="$route.meta.title">
+    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
 
     <!-- 列表 -->
-    <van-list
-      v-model="listLoading"
-      :finished="finished"
-      :offset="offset"
-      @load="onLoad"
-    >
+    <van-list v-model="listLoading" :finished="finished" :offset="offset" @load="onLoad">
       <product-item :list="list"></product-item>
     </van-list>
 
     <div class="hairline" v-if="finished">我是有底线的</div>
 
     <!-- 底部导航栏 -->
-    <footer-bottom :myActive="0"></footer-bottom>
+    <footer-bottom :myActive="1"></footer-bottom>
   </div>
 </template>
 
@@ -45,21 +18,12 @@
   import headerTop from '@/components/header/header'
   import productItem from '@/components/product/item'
   import footerBottom from '@/components/footer/footer'
-  import loading from '@/components/common/loading'
-  import { Search, Button, Swipe, SwipeItem, List, Card, Lazyload, NoticeBar } from 'vant';
+  import { List } from 'vant';
   import { getGoodList } from '@/apis/good'
-  import { getIndexData } from '@/apis/home'
   export default {
     components: {
-      headerTop,footerBottom, productItem, loading,
-      [Search.name]: Search,
-      [Button.name]: Button,
+      headerTop,footerBottom, productItem,
       [List.name]: List,
-      [Card.name]: Card,
-      [Swipe.name]: Swipe,
-      [SwipeItem.name]: SwipeItem,
-      [Lazyload.name]: Lazyload,
-      [NoticeBar.name]: NoticeBar,
     },
     data() {
       return {
@@ -79,21 +43,13 @@
       }
     },
     mounted() {
+      this.q = this.$route.query.q
       this.init()
     },
     methods: {
       async init() {
         let token = this.$store.getters.token
-        await getIndexData({token: token}).then(respone => {
-          let _data = respone.data;
-          this.images = [..._data.images]
-          this.noticeText = _data.notice.title
-        }).catch(error => {
-          this.$toast('getIndexData')
-          this.$toast(error)
-        })
-
-        await getGoodList({token: token, page: this.page, limit: this.limit}).then(respone => {
+        await getGoodList({token: token, q: this.q, page: this.page, limit: this.limit}).then(respone => {
           let _data = respone.data
           this.list = [..._data.items]
           if(_data.items.length < this.limit) {
@@ -120,7 +76,7 @@
               this.finished = true
             } else {
               let token = this.$store.getters.token
-              getGoodList({token: token, page: this.page, limit: this.limit}).then(respone => {
+              getGoodList({token: token, q: this.q, page: this.page, limit: this.limit}).then(respone => {
                 let _data = respone.data
                 if(_data.items.length < this.limit) {
                   this.finished = true
@@ -130,7 +86,7 @@
                 }
                 this.listLoading = false
               }).catch(error => {
-                this.$toast(error)
+                this.$toast(error.desc)
               })
             }
           }, this.timeout)
@@ -141,15 +97,15 @@
 </script>
 
 <style lang="less" scoped>
-  .swipe {
-    height: 207px;
-    .swipe-item {
-      img {
-        height: 100%;
-      }
-    }
+  .container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    z-index: 202;
   }
-
   .hairline {
     position: relative;
     padding: 5px 1px;

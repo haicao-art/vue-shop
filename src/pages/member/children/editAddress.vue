@@ -57,9 +57,6 @@
       console.log('edit Address deactivated')
     },
     methods: {
-      ...mapMutations([
-        'CHOOSE_ADDRESS'
-      ]),
       async onSave(content) {
         console.log('更新收货地址')
         this.$toast.loading({
@@ -78,7 +75,7 @@
             message: '保存成功'
           })
           setTimeout(() => {
-            this.$router.replace({path: '/cart/confirm/chooseAddress'})
+            this.$router.go(-1)
           }, 1500)
         }).catch(error => {
           console.log(error)
@@ -105,7 +102,7 @@
             message: '收货地址删除成功'
           })
           setTimeout(() => {
-            this.$router.replace({path: '/cart/confirm/chooseAddress'})
+            this.$router.go(-1)
           }, 1500)
         }).catch(error => {
           this.$toast.fail({
@@ -147,7 +144,7 @@
             message: error.desc
           })
           setTimeout(() => {
-            this.$router.replace({path: '/cart/confirm/chooseAddress'})
+            this.$router.go(-1)
           }, 1500)
         })
       }

@@ -2,82 +2,84 @@
   <div class="carts" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl='/cart/index'></header-top>
 
-    <router-link :to="{path: 'confirm/chooseAddress'}" class="address_container">
-      <section class="address">
-        <div class="address_empty_left">
-          <svg class="location_icon">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#location"></use>
-          </svg>
-          <div class="add_address" v-if="!choosedAddress">请添加一个收货地址</div>
-          <div v-else class="address_detail_container">
-            <header>
-              <span>{{choosedAddress.consignee}}</span>
-              <span>{{choosedAddress.mobile}}</span>
-            </header>
-            <div class="address_detail">
-              <span>{{choosedAddress.address}}</span>
+    <section class="content">
+      <router-link :to="{path: 'confirm/chooseAddress'}" class="address_container">
+        <section class="address">
+          <div class="address_empty_left">
+            <svg class="location_icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#location"></use>
+            </svg>
+            <div class="add_address" v-if="!choosedAddress">请添加一个收货地址</div>
+            <div v-else class="address_detail_container">
+              <header>
+                <span>{{choosedAddress.consignee}}</span>
+                <span>{{choosedAddress.mobile}}</span>
+              </header>
+              <div class="address_detail">
+                <span>{{choosedAddress.address}}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <svg class="address_empty_right">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-        </svg>
-      </section>
-    </router-link>
+          <svg class="address_empty_right">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+          </svg>
+        </section>
+      </router-link>
 
-    <van-cell-group>
-      <van-cell value="商品信息" :border="false"/>
-    </van-cell-group>
-    <div class="carts-goods" v-for="(good, index) in goods" :key="index">
       <van-cell-group>
-        <van-card desc="" :num="good.buy_num" price="1200" :thumb="good.good_pic">
-          <div slot="title" class="carts-goods-title">
-            <van-tag mark plain type="danger" class="carts-tag-item">{{good.good_trade_type}}</van-tag>{{good.good_title}}
-          </div>
-          <div slot="desc" class="carts-goods-desc">
-            {{formatPrice(good.price)}}<span class="carts-goods-desc-num"> x {{good.buy_num}}</span>
-          </div>
-          <div slot="tags" class="carts-goods-tags">
-            {{good.spec_title}}
-          </div>
-        </van-card>
+        <van-cell value="商品信息" :border="false"/>
       </van-cell-group>
-    </div>
-    <div class="carts-total">
-      <van-cell-group>
-        <van-cell title="配送方式">
-          <div slot="" class="carts-freight">
-            普通快递
+      <div class="carts-goods" v-for="(good, index) in goods" :key="index">
+        <van-cell-group>
+          <van-card desc="" :num="good.buy_num" price="1200" :thumb="good.good_pic">
+            <div slot="title" class="carts-goods-title">
+              <van-tag mark plain type="danger" class="carts-tag-item">{{good.good_trade_type}}</van-tag>{{good.good_title}}
+            </div>
+            <div slot="desc" class="carts-goods-desc">
+              {{formatPrice(good.price)}}<span class="carts-goods-desc-num"> x {{good.buy_num}}</span>
+            </div>
+            <div slot="tags" class="carts-goods-tags">
+              {{good.spec_title}}
+            </div>
+          </van-card>
+        </van-cell-group>
+      </div>
+      <div class="carts-total">
+        <van-cell-group>
+          <van-cell title="配送方式">
+            <div slot="" class="carts-freight">
+              普通快递
+            </div>
+          </van-cell>
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell title="支付方式"></van-cell>
+          <div class="carts-choose_type_container">
+            <ul>
+              <li v-for="item in payments" :key="item.id" :class="{choose: payment_id === item.id}">
+                <span>{{item.title}}</span>
+                <svg class="address_empty_right" @click="choosePayWay(item)">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select"></use>
+                </svg>
+              </li>
+            </ul>
           </div>
-        </van-cell>
-      </van-cell-group>
-      <van-cell-group>
-        <van-cell title="支付方式"></van-cell>
-        <div class="carts-choose_type_container">
-          <ul>
-            <li v-for="item in payments" :key="item.id" :class="{choose: payment_id === item.id}">
-              <span>{{item.title}}</span>
-              <svg class="address_empty_right" @click="choosePayWay(item)">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#select"></use>
-              </svg>
-            </li>
-          </ul>
-        </div>
-      </van-cell-group>
+        </van-cell-group>
 
-      <van-cell-group style="margin: 5px 0 60px;">
-        <van-cell title="优惠券" is-link>
-          <div slot="" class="carts-coupon">
-            暂无可用
-          </div>
-        </van-cell>
-        <van-cell title="商品金额" :value="formatPrice(good_price)" />
-        <van-cell title="关税" :value="formatPrice(tax_price)" v-if="tax_price" />
-        <van-cell title="运费" :value="formatPrice(freight)" />
-      </van-cell-group>
-    </div>
+        <van-cell-group style="margin: 5px 0 60px;">
+          <van-cell title="优惠券" is-link>
+            <div slot="" class="carts-coupon">
+              暂无可用
+            </div>
+          </van-cell>
+          <van-cell title="商品金额" :value="formatPrice(good_price)" />
+          <van-cell title="关税" :value="formatPrice(tax_price)" v-if="tax_price" />
+          <van-cell title="运费" :value="formatPrice(freight)" />
+        </van-cell-group>
+      </div>
+    </section>
 
-    <van-submit-bar v-if="showSubmitBar" :loading="loading" :price="totalPrice" button-text="提交订单" @submit="onSubmit"/>
+    <van-submit-bar class="submitBar" :loading="loading" :price="totalPrice" button-text="提交订单" @submit="onSubmit"/>
 
     <!-- 遮罩层 -->
     <transition name="fade">
@@ -187,9 +189,6 @@
           //this.$router.replace({'path': '/cart/index'})
         })
         this.signatureMethod()
-        setTimeout(() => {
-          this.showSubmitBar = true
-        }, 1400)
       },
       formatPrice(good_price) {
         return '￥' + (good_price / 100).toFixed(2)
@@ -198,6 +197,7 @@
         this.$toast.loading({
           duration: 0,
           forbidClick: true,
+          mask: true,
           loadingType: 'spinner',
           message: '正在发送请求...'
         })
@@ -218,6 +218,7 @@
             duration: 3000,
             forbidClick: true,
             loadingType: 'spinner',
+            mask: true,
             message: '订单创建成功'
           })
           //清除state localStorage
@@ -232,6 +233,7 @@
               duration: 0,
               forbidClick: true,
               loadingType: 'spinner',
+              mask: true,
               message: '正在发起支付请求'
             })
           }, 1000)
@@ -299,6 +301,10 @@
 </script>
 <style lang="less" scoped>
   .carts {
+    height: 100%;
+    .content {
+      height: 100%;
+    }
     .address_container {
       display: block;
       position: relative;
@@ -471,6 +477,11 @@
           }
         }
       }
+    }
+    .submitBar {
+      position: -webkit-sticky;
+      position: sticky;
+      bottom: 0;
     }
   }
   .address_empty_right{

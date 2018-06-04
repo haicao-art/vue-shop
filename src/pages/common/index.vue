@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pages">
     <transition :name="transitionName" mode="out-in">
   		<keep-alive>
   		  <router-view  v-if="$route.meta.keepAlive"></router-view>
@@ -21,20 +21,18 @@
     },
     watch: {
       $route(to, from) {  //监听路由变化
-        if(to.meta.index == 0) {
-          this.transitionName = ''
+        if(to.meta.index > from.meta.index) {
+          this.transitionName = 'slide-fade'
         } else {
-          if(to.meta.index > from.meta.index) {
-            this.transitionName = 'slide-fade'
-          } else {
-            this.transitionName = 'slide-fade'
-          }
+          this.transitionName = 'slide-fade'
         }
       }
     },
   }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+  .pages {
+    height: 100%;
+  }
 </style>

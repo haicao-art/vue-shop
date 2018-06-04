@@ -1,80 +1,92 @@
 <template>
   <div class="address" v-wechat-title="$route.meta.title">
-    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl='/cart/confirm'></header-top>
+    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
 
-    <van-address-list
-      :list="address"
-      @select="chooseAddress"
-      @add="onAdd"
-      @edit="onEdit"
+    <van-address-edit
+      :area-list="areaList"
+      :address-info="addressInfo"
+      @save="onSave"
     />
-
-    <transition name="router-slid" mode="out-in">
-      <router-view></router-view>
-    </transition>
 
   </div>
 </template>
 
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import { getAddressList } from '@/apis/address'
+  import { getAddressList, addAddress } from '@/apis/address'
   import headerTop from '@/components/header/header'
-  import { AddressList } from 'vant'
+  import { AddressEdit } from 'vant'
+  import areaList from '@/assets/js/area'
   export default {
     components: {
       headerTop,
-      [AddressList.name]: AddressList
+      [AddressEdit.name]: AddressEdit
     },
     data() {
       return {
-        address: []
+        addressInfo: {
+          id: 0,
+          name: '',
+          tel: '',
+          province: '',
+          city: '',
+          county: '',
+          address_detail: '',
+          area_code: '',
+          is_default: false
+        },
+        areaList
       }
     },
     mounted() {
       //获取当前用户收货信息
-      this.init()
     },
     created() {
-      console.log('chooseAddress created')
+      console.log('add Address created')
     },
     activated() {
-      console.log('chooseAddress activated')
+      console.log('add Address activated')
     },
     deactivated() {
-      console.log('chooseAddress deactivated')
-    },
-    watch: {
-      '$route' (to, from) {
-        console.log('choose Address Router Change')
-        this.init()
-      }
+      console.log('add Address deactivated')
     },
     methods: {
       ...mapMutations([
         'CHOOSE_ADDRESS'
       ]),
-      chooseAddress(address, index) {
-        this.CHOOSE_ADDRESS({address, index});
-        this.$router.replace({path: '/cart/confirm'})
-      },
-      onAdd() {
+      async onSave(content) {
         console.log('新增收货地址')
-        this.$router.push({path: 'chooseAddress/addAddress'})
-      },
-      onEdit(item, index) {
-        console.log('编辑收货地址')
-        this.$router.push({path: 'chooseAddress/editAddress', query: {id: item.id}})
+        this.$toast.loading({
+          duration: 0,
+          forbidClick: true,
+          mask: true,
+          loadingType: 'spinner',
+          message: '加载中...'
+        })
+        let token = this.$store.getters.token
+        await addAddress(token, content).then(response => {
+          console.log(response)
+          this.$toast.success({
+            duration: 3000,
+            forbidClick: true,
+            message: '保存成功'
+          })
+          setTimeout(() => {
+            this.$router.go(-1)
+          }, 3000)
+        }).catch(error => {
+          console.log(error)
+          this.$toast.fail({
+            duration: 3000,
+            forbidClick: true,
+            message: error.desc
+          })
+        })
       },
       async init() {
         let token = this.$store.getters.token
         await getAddressList({token: token}).then(response => {
           let _data = response.data
-          _data.items.map((item) => {
-            item.name = item.consignee
-            item.tel = item.mobile
-            item.address = item.province + ' ' + item.city + ' ' + item.district + ' ' + item.address
-          })
           this.address = _data.items
         }).catch(error => {
           console.log(error)
@@ -84,11 +96,6 @@
   }
 </script>
 
-<style lang="less">
-.van-address-list__add {
-  z-index: 1;
-}
-</style>
 <style lang="less" scoped>
   .address {
     position: fixed;
@@ -155,21 +162,5 @@
         color: #fff;
       }
     }
-
-    .router-slid-enter-active, .router-slid-leave-active {
-      transition: all .4s;
-    }
-    .router-slid-enter, .router-slid-leave-active {
-      transform: translate3d(2rem, 0, 0);
-      opacity: 0;
-    }
-  }
-
-  .router-slid-enter-active, .router-slid-leave-active {
-    transition: all .4s;
-  }
-  .router-slid-enter, .router-slid-leave-active {
-    transform: translate3d(2rem, 0, 0);
-    opacity: 0;
   }
 </style>

@@ -1,11 +1,10 @@
 <template>
-  <footer id="footer">
-    <van-tabbar v-model="active">
-      <van-tabbar-item icon="wap-home" :to="{path: '/'}">首页</van-tabbar-item>
-      <van-tabbar-item icon="search" :to="{path: '/search'}">搜索</van-tabbar-item>
-      <van-tabbar-item icon="contact" :to="{path: '/member/index'}">个人中心</van-tabbar-item>
-    </van-tabbar>
-  </footer>
+  <van-tabbar v-model="active">
+    <van-tabbar-item icon="wap-home" :to="{path: '/'}">首页</van-tabbar-item>
+    <van-tabbar-item icon="search" :to="{path: '/search/index'}">搜索</van-tabbar-item>
+    <van-tabbar-item icon="cart" :to="{path: '/cart/index'}">购物车</van-tabbar-item>
+    <van-tabbar-item icon="contact" :to="{path: '/member/index'}">个人中心</van-tabbar-item>
+  </van-tabbar>
 </template>
 
 <script>
@@ -39,8 +38,9 @@
 </script>
 
 <style lang="less" scoped>
-  #footer {
-    max-width: 750px;
-    margin-top: 51px;
+  .van-tabbar {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
   }
 </style>

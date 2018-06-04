@@ -59,6 +59,7 @@
         this.$toast.loading({
           duration: 0,
           forbidClick: true,
+          mask: true,
           loadingType: 'spinner',
           message: '加载中...'
         })

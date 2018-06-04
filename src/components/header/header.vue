@@ -1,7 +1,6 @@
 <template>
   <header id="header_top">
     <slot name='logo'></slot>
-    <slot name='search'></slot>
     <van-nav-bar
       :title="navbarTitle"
       :left-text="leftText"
@@ -14,7 +13,8 @@
       v-if="navbarTitle"
     >
     </van-nav-bar>
-    <slot name='notice'></slot>
+    <slot name='search' class="search"></slot>
+    <slot name='notice' class="notice"></slot>
   </header>
 </template>
 
@@ -48,13 +48,16 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   #header_top {
-    z-index: 100;
-    left: 0;
+    z-index: 9;
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
     width: 100%;
-    height: 46px;
+    min-height: 2rem;
+    display: flex;
+    flex-direction: column;
     .van-icon {
       color: #454545;
     }

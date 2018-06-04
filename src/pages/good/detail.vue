@@ -1,5 +1,5 @@
 <template>
-  <div class="goods" v-wechat-title="$route.meta.title">
+  <div class="goods container" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
     <!-- 轮播图 -->
     <van-swipe :autoplay="3000" class="swipe">
@@ -56,12 +56,12 @@
         <div v-html="good_extend.good_detail"></div>
       </van-tab>
       <van-tab title="评论">
-        
+
       </van-tab>
     </van-tabs>
 
     <!-- 底部加入购物车 -->
-    <van-goods-action class="goods-bottom-btn" v-if="showSubmitBar">
+    <van-goods-action class="goods-bottom-btn">
       <van-goods-action-mini-btn icon="wap-home" text="首页" @click="onClickHomeMiniBtn" />
       <van-goods-action-mini-btn icon="cart" text="购物车" @click="onClickCartMiniBtn" />
       <van-goods-action-big-btn text="加入购物车" @click="onClickBigBtn" />
@@ -206,16 +206,17 @@ export default {
 
 <style lang="less">
   .goods {
-    background-color: #eee;
+    .container {
+    }
     .goback{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 2rem;
-        z-index: 11;
-        padding-top: 0.2rem;
-        padding-left: 0.2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2rem;
+      z-index: 11;
+      padding-top: 0.2rem;
+      padding-left: 0.2rem;
     }
     .swipe {
       height: 100%;
@@ -268,7 +269,10 @@ export default {
       margin: 10px 0;
     }
     &-bottom-btn {
-      z-index: 100
+      position: -webkit-sticky;
+      position: sticky;
+      bottom: 0;
+      z-index: 100;
     }
     &-detail {
       margin-bottom: 50px;

@@ -2,7 +2,7 @@
   <div class="member_container" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
 
-    <section>
+    <section class="content">
       <section class="member-detail">
         <img :src="member.avatar" />
         <p>{{member.nickname}}</p>
@@ -17,10 +17,21 @@
           <van-tabbar-item icon="pending-orders" :info="order_count.other > 0 ? order_count.other : ''" :to="{path: '/order/index', query: {'state': '售后'}}">退款/售后</van-tabbar-item>
         </van-tabbar>
       </section>
+
+      <section class="member-extra">
+        <van-cell title="收货地址管理" is-link @click="onClickAddress()"/>
+        <van-cell title="我的积分" value="0分" is-link>
+          <template slot>
+            <span class="point">{{member.point}}分</span>
+          </template>
+        </van-cell>
+        <van-cell title="我的客服" is-link @click="onClickCustomer()"/>
+      </section>
+
     </section>
 
     <!-- 底部导航栏 -->
-    <footer-bottom v-if="showFooterBottom" :myActive="2"></footer-bottom>
+    <footer-bottom :myActive="2"></footer-bottom>
   </div>
 </template>
 
@@ -81,6 +92,13 @@
       },
       onClickAllOrder() {
         this.$router.push({path: '/order/index'})
+      },
+      onClickAddress() {
+        console.log('click 收货地址')
+        this.$router.push({path: 'address'})
+      },
+      onClickCustomer() {
+        this.$toast.fail('敬请期待')
       }
     }
   }
@@ -88,23 +106,35 @@
 
 <style lang="less" scoped>
   .member_container {
-    .member-detail {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: .5rem;
-      background-color: #fff;
-      img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50px;
-      }
-      p {
-        font-size: .6rem;
-      }
+    height: 100%;
+    .content {
+      height: 100%;
     }
-    .member-orders {
-      margin-top: .5rem;
+    .member {
+      &-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: .5rem;
+        background-color: #fff;
+        img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50px;
+        }
+        p {
+          font-size: .6rem;
+        }
+      }
+      &-orders {
+        margin-top: .5rem;
+      }
+      &-extra {
+        margin-top: .5rem;
+        .point {
+          color: #f66;
+        }
+      }
     }
   }
 </style>

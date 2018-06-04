@@ -26,14 +26,10 @@ export default {
   },
   watch: {
     $route(to, from) {  //监听路由变化
-      if(to.meta.index == 0) {
-        this.transitionName = ''
+      if(to.meta.index > from.meta.index) {
+        this.transitionName = 'slide-fade'
       } else {
-        if(to.meta.index > from.meta.index) {
-          this.transitionName = 'slide-fade'
-        } else {
-          this.transitionName = 'slide-fade'
-        }
+        this.transitionName = 'slide-fade'
       }
     }
   },
@@ -43,8 +39,9 @@ export default {
 </script>
 
 <style>
-body {
+html, body {
   background-color: #f8f8f8;
+  height: 100%;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -53,6 +50,7 @@ body {
   color: #2c3e50;
   background-color: #f5f5f5;
   padding: 0 1px;
+  height: 100%;
 }
 .van-stepper__input[disabled] {
   color: #f00 !important;
@@ -67,7 +65,7 @@ body {
   right: 0;
 }
 .slide-fade-enter-active {
-  transition: all 1.2s ease;
+  transition: all 1s ease;
 }
 .slide-fade-leave-active {
   transition: all .1s cubic-bezier(2.0, 0.5, 0.8, 1.0);
@@ -75,7 +73,7 @@ body {
 .slide-fade-enter, .slide-fade-leave-to{
   left:0;
   right: 0;
-  transform: translateX(80px);
+  transform: translateX(100px);
   opacity: 0;
 }
 </style>

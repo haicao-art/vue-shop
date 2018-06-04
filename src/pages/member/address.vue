@@ -1,13 +1,14 @@
 <template>
   <div class="address" v-wechat-title="$route.meta.title">
-    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow gobackUrl='/cart/confirm'></header-top>
+    <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
 
-    <van-address-list
-      :list="address"
-      @select="chooseAddress"
-      @add="onAdd"
-      @edit="onEdit"
-    />
+    <section>
+      <van-address-list
+        :list="address"
+        @add="onAdd"
+        @edit="onEdit"
+      />
+    </section>
 
     <transition name="router-slid" mode="out-in">
       <router-view></router-view>
@@ -51,20 +52,13 @@
       }
     },
     methods: {
-      ...mapMutations([
-        'CHOOSE_ADDRESS'
-      ]),
-      chooseAddress(address, index) {
-        this.CHOOSE_ADDRESS({address, index});
-        this.$router.replace({path: '/cart/confirm'})
-      },
       onAdd() {
         console.log('新增收货地址')
-        this.$router.push({path: 'chooseAddress/addAddress'})
+        this.$router.push({path: 'address/addAddress'})
       },
       onEdit(item, index) {
         console.log('编辑收货地址')
-        this.$router.push({path: 'chooseAddress/editAddress', query: {id: item.id}})
+        this.$router.push({path: 'address/editAddress', query: {id: item.id}})
       },
       async init() {
         let token = this.$store.getters.token
@@ -91,12 +85,6 @@
 </style>
 <style lang="less" scoped>
   .address {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #fff;
     z-index: 202;
     &-lists {
       margin-top: .3rem;
