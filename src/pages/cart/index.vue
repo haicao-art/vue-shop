@@ -123,6 +123,7 @@
       height: 100%;
     }
     &-goods {
+      position: relative;
       background-color: #fff;
       .van-card {
         font-size: .5rem;
