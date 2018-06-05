@@ -2,12 +2,14 @@
   <div class="container" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
 
-    <!-- 列表 -->
-    <van-list v-model="listLoading" :finished="finished" :offset="offset" @load="onLoad">
-      <product-item :list="list"></product-item>
-    </van-list>
+    <section class="content">
+      <!-- 列表 -->
+      <van-list v-model="listLoading" :finished="finished" :offset="offset" @load="onLoad">
+        <product-item :list="list"></product-item>
+      </van-list>
 
-    <div class="hairline" v-if="finished">我是有底线的</div>
+      <div class="hairline" v-if="finished">我是有底线的</div>
+    </section>
 
     <!-- 底部导航栏 -->
     <footer-bottom :myActive="1"></footer-bottom>
@@ -98,13 +100,10 @@
 
 <style lang="less" scoped>
   .container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #fff;
-    z-index: 202;
+    height: 100%;
+    .content {
+      min-height: 100%;
+    }
   }
   .hairline {
     position: relative;

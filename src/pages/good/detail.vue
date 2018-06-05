@@ -1,64 +1,67 @@
 <template>
-  <div class="goods container" v-wechat-title="$route.meta.title">
+  <div class="goods" v-wechat-title="$route.meta.title">
     <header-top :navbarTitle="$route.meta.title" leftText="返回" leftArrow></header-top>
-    <!-- 轮播图 -->
-    <van-swipe :autoplay="3000" class="swipe">
-      <van-swipe-item v-for="(image, index) in good.good_pic" :key="index" class="swipe-item">
-        <img :src="image" />
-      </van-swipe-item>
-    </van-swipe>
 
-    <van-cell-group>
-      <van-cell class="goods-info">
-        <div class="goods-title"><van-tag mark plain type="danger" class="tag-item">{{good.good_trade_type}}</van-tag>{{good.good_title}}</div>
-        <div class="goods-sale-price">￥{{formatPrice(good.good_price)}}</div>
-      </van-cell>
-      <van-cell class="goods-info">
-        <div class="goods-intro" v-html="good_extend.good_desc"></div>
-      </van-cell>
-    </van-cell-group>
+    <section class="content">
+      <!-- 轮播图 -->
+      <van-swipe :autoplay="3000" class="swipe">
+        <van-swipe-item v-for="(image, index) in good.good_pic" :key="index" class="swipe-item">
+          <img :src="image" />
+        </van-swipe-item>
+      </van-swipe>
 
-    <van-cell-group class="goods-cell-group">
-      <!--
-      <van-cell value="进入店铺" icon="shop" is-link>
-        <template slot="title">
-          <span class="van-cell-text">有赞的店</span>
-          <van-tag type="danger">官方</van-tag>
-        </template>
-      </van-cell>
-      <van-cell title="线下门店" icon="location" is-link/>
-      -->
-      <van-cell>
-        <template slot="title">
-          <div class="goods-tag">
-            <van-tag plain type="danger" class="tag-item" v-for="(tag, idx) in good.good_tag" :key="idx">{{tag}}</van-tag>
-          </div>
-        </template>
-      </van-cell>
-      <van-cell title="请选择商品规格" icon="location" is-link @click="onShowAction"/>
-    </van-cell-group>
-    <van-sku
-      v-model="good.showBase"
-      :sku="good_spec"
-      :goods="good"
-      :goods-id="good.id"
-      :hide-stock="good_spec.hide_stock"
-      :quota="quota"
-      reset-stepper-on-hide
-      :close-on-click-overlay="good_spec.loseOnClickOverlay"
-      disable-stepper-input=""
-      @buy-clicked="onBuyClicked"
-      @add-cart="onAddCartClicked"
-    />
+      <van-cell-group>
+        <van-cell class="goods-info">
+          <div class="goods-title"><van-tag mark plain type="danger" class="tag-item">{{good.good_trade_type}}</van-tag>{{good.good_title}}</div>
+          <div class="goods-sale-price">￥{{formatPrice(good.good_price)}}</div>
+        </van-cell>
+        <van-cell class="goods-info">
+          <div class="goods-intro" v-html="good_extend.good_desc"></div>
+        </van-cell>
+      </van-cell-group>
 
-    <van-tabs class="goods-detail">
-      <van-tab title="商品详情">
-        <div v-html="good_extend.good_detail"></div>
-      </van-tab>
-      <van-tab title="评论">
+      <van-cell-group class="goods-cell-group">
+        <!--
+        <van-cell value="进入店铺" icon="shop" is-link>
+          <template slot="title">
+            <span class="van-cell-text">有赞的店</span>
+            <van-tag type="danger">官方</van-tag>
+          </template>
+        </van-cell>
+        <van-cell title="线下门店" icon="location" is-link/>
+        -->
+        <van-cell>
+          <template slot="title">
+            <div class="goods-tag">
+              <van-tag plain type="danger" class="tag-item" v-for="(tag, idx) in good.good_tag" :key="idx">{{tag}}</van-tag>
+            </div>
+          </template>
+        </van-cell>
+        <van-cell title="请选择商品规格" icon="location" is-link @click="onShowAction"/>
+      </van-cell-group>
+      <van-sku
+        v-model="good.showBase"
+        :sku="good_spec"
+        :goods="good"
+        :goods-id="good.id"
+        :hide-stock="good_spec.hide_stock"
+        :quota="quota"
+        reset-stepper-on-hide
+        :close-on-click-overlay="good_spec.loseOnClickOverlay"
+        disable-stepper-input=""
+        @buy-clicked="onBuyClicked"
+        @add-cart="onAddCartClicked"
+      />
 
-      </van-tab>
-    </van-tabs>
+      <van-tabs class="goods-detail">
+        <van-tab title="商品详情">
+          <div v-html="good_extend.good_detail"></div>
+        </van-tab>
+        <van-tab title="评论">
+
+        </van-tab>
+      </van-tabs>
+    </section>
 
     <!-- 底部加入购物车 -->
     <van-goods-action class="goods-bottom-btn">
@@ -94,7 +97,6 @@ export default {
   },
   data() {
     return {
-      showSubmitBar: false,
       disableStepperInput: true,
       quota: 0,   //限购数 0表示不限购
       good: {
@@ -125,14 +127,25 @@ export default {
       }
     }
   },
+  beforeRouteEnter(to, from, next) {
+    console.log('beforeRouteEnter')
+    console.log(to)
+    /*
+    getGoodInfo({id: to.query.id}).then(response => {
+      next(vm => vm.setData(response.data))
+    }).catch(error => {
+      console.log(error)
+    });
+    */
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log('beforeRouteUpdate1')
+  },
   mounted() {
     //this.$route.meta.title = '青意萱 青意宣 特大号落地紫砂陶瓷花盆红砂紫砂花盆 客厅花卉绿植粗砂花盆 口径19cm 大号'
     let id = this.$route.query.id
     this.init(id)
-
-    setTimeout(() => {
-      this.showSubmitBar = true
-    }, 1500)
   },
   created() {
   },
@@ -147,32 +160,34 @@ export default {
     ...mapMutations([
       'ADD_CART'
     ]),
-    async init(id) {
+    setData(_data) {
       let that = this
+      _data.good.title = _data.good.good_title
+      _data.good.picture = _data.good.good_pic[0]
+      this.good = _data.good
+      this.good_extend = _data.good_extend
+      this.good_spec.tree = [{k: '商品规格',v: _data.good_spec, k_s: 's1'}]
+      _data.good_spec.forEach((item, index, arr) => {
+        let _price = that.formatPrice(item.price)
+        if(that.good_spec.price == 0 || that.good_spec.price > _price) {
+          that.good_spec.price = _price
+        }
+        if(that.good_spec.stock_num == 0 || that.good_spec.stock_num > item.stock) {
+          that.good_spec.stock_num = item.stock
+        }
+        arr[index]['name'] = item.spec_title
+        arr[index]['s1'] = item.id.toString()
+        arr[index]['s2'] = "0"
+        arr[index]['s3'] = "0"
+        arr[index]['price'] = item.price
+        arr[index]['stock_num'] = item.stock
+      })
+      this.good_spec.list = [..._data.good_spec]
+    },
+    async init(id) {
       let token = this.$store.getters.token
-      await getGoodInfo({token: token, id: id}).then(respone => {
-        let _data = respone.data
-        _data.good.title = _data.good.good_title
-        _data.good.picture = _data.good.good_pic[0]
-        this.good = _data.good
-        this.good_extend = _data.good_extend
-        this.good_spec.tree = [{k: '商品规格',v: _data.good_spec, k_s: 's1'}]
-        _data.good_spec.forEach((item, index, arr) => {
-          let _price = that.formatPrice(item.price)
-          if(that.good_spec.price == 0 || that.good_spec.price > _price) {
-            that.good_spec.price = _price
-          }
-          if(that.good_spec.stock_num == 0 || that.good_spec.stock_num > item.stock) {
-            that.good_spec.stock_num = item.stock
-          }
-          arr[index]['name'] = item.spec_title
-          arr[index]['s1'] = item.id.toString()
-          arr[index]['s2'] = "0"
-          arr[index]['s3'] = "0"
-          arr[index]['price'] = item.price
-          arr[index]['stock_num'] = item.stock
-        })
-        this.good_spec.list = [..._data.good_spec]
+      await getGoodInfo({token: token, id: id}).then(response => {
+        this.setData(response.data)
       }).catch(error => {
         console.log(error)
       })
@@ -206,20 +221,11 @@ export default {
 
 <style lang="less">
   .goods {
-    .container {
-    }
-    .goback{
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2rem;
-      z-index: 11;
-      padding-top: 0.2rem;
-      padding-left: 0.2rem;
+    height: 100%;
+    .content {
+      min-height: 100%;
     }
     .swipe {
-      height: 100%;
       .swipe-item {
         img {
           width: 16rem;

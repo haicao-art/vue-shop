@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <loading v-if="showLoading"></loading>
+  <div id="app" v-else>
     <transition :name="transitionName" mode="out-in">
 			<keep-alive>
 			  <router-view  v-if="$route.meta.keepAlive"></router-view>
@@ -13,16 +14,26 @@
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex'
 import svgIcon from '@/components/common/svg'
+import loading from '@/components/common/loading'
 export default {
   components: {
-    svgIcon
+    svgIcon,
+    loading
   },
   data() {
     return {
-      showLoading: true,
       transitionName: 'slide-fade'
     }
+  },
+  computed: {
+    ...mapState({
+      showLoading: state => state.common.showLoading
+    }),
+  },
+  mounted() {
+    console.log(this.showLoading)
   },
   watch: {
     $route(to, from) {  //监听路由变化

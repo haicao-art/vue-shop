@@ -29,8 +29,7 @@ const whiteList = [
 ]
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
+  store.dispatch("onLoading", true);
   if(whiteList.indexOf(to.path) !== -1) {
     next()
   } else if(getToken()) {
@@ -55,4 +54,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
+  setTimeout(() => {
+    store.dispatch("onLoading", false);
+  }, 500)
 })

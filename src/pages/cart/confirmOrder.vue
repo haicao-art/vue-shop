@@ -301,9 +301,9 @@
 </script>
 <style lang="less" scoped>
   .carts {
-    height: 100%;
+    min-height: 100%;
     .content {
-      height: 100%;
+      min-height: 100%;
     }
     .address_container {
       display: block;

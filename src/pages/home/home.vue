@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-show="!showLoading" v-wechat-title="$route.meta.title">
+  <div class="container" v-wechat-title="$route.meta.title">
     <header-top>
       <van-search slot="search"
         v-model="q"
@@ -16,26 +16,27 @@
         />
       </section>
     </header-top>
+    <section class="content">
+      <!-- 轮播图 -->
+      <van-swipe :autoplay="3000" class="swipe">
+        <van-swipe-item v-for="(image, index) in images" :key="index" class="swipe-item">
+          <img :src="image" />
+        </van-swipe-item>
+      </van-swipe>
 
-    <!-- 轮播图 -->
-    <van-swipe :autoplay="3000" class="swipe">
-      <van-swipe-item v-for="(image, index) in images" :key="index" class="swipe-item">
-        <img :src="image" />
-      </van-swipe-item>
-    </van-swipe>
+      <!-- 列表 -->
+      <van-list
+        v-model="listLoading"
+        :finished="finished"
+        :offset="offset"
+        @load="onLoad"
+      >
+        <product-item :list="list"></product-item>
+      </van-list>
 
-    <!-- 列表 -->
-    <van-list
-      v-model="listLoading"
-      :finished="finished"
-      :offset="offset"
-      @load="onLoad"
-    >
-      <product-item :list="list"></product-item>
-    </van-list>
+      <div class="hairline" v-if="finished">我是有底线的</div>
 
-    <div class="hairline" v-if="finished">我是有底线的</div>
-
+    </section>
     <!-- 底部导航栏 -->
     <footer-bottom :myActive="0"></footer-bottom>
   </div>
@@ -45,13 +46,12 @@
   import headerTop from '@/components/header/header'
   import productItem from '@/components/product/item'
   import footerBottom from '@/components/footer/footer'
-  import loading from '@/components/common/loading'
   import { Search, Button, Swipe, SwipeItem, List, Card, Lazyload, NoticeBar } from 'vant';
   import { getGoodList } from '@/apis/good'
   import { getIndexData } from '@/apis/home'
   export default {
     components: {
-      headerTop,footerBottom, productItem, loading,
+      headerTop,footerBottom, productItem,
       [Search.name]: Search,
       [Button.name]: Button,
       [List.name]: List,
@@ -69,7 +69,6 @@
         limit: 20,
         total_page: 1,
         timeout: 2000,
-        showLoading: false,
         listLoading: false, //是否显示加载中提示，加载过程中不触发load事件
         finished: false,  //是否已加载完成，加载完成后不再触发load事件
         offset: 100,    //list  滚动条与底部距离小于 offset 时触发load事件
@@ -89,8 +88,7 @@
           this.images = [..._data.images]
           this.noticeText = _data.notice.title
         }).catch(error => {
-          this.$toast('getIndexData')
-          this.$toast(error)
+          this.$toast(error.desc)
         })
 
         await getGoodList({token: token, page: this.page, limit: this.limit}).then(respone => {
@@ -102,11 +100,8 @@
           }
           this.ready = true
         }).catch(error => {
-          this.$toast('getGoodList')
-          this.$toast(error)
+          this.$toast(error.desc)
         })
-
-        this.showLoading = false
       },
       onSearch() {
         this.$toast(this.q)
@@ -130,7 +125,7 @@
                 }
                 this.listLoading = false
               }).catch(error => {
-                this.$toast(error)
+                this.$toast(error.desc)
               })
             }
           }, this.timeout)
@@ -141,6 +136,12 @@
 </script>
 
 <style lang="less" scoped>
+  .container {
+    height: 100%;
+    .content {
+      min-height: 100%;
+    }
+  }
   .swipe {
     height: 207px;
     .swipe-item {

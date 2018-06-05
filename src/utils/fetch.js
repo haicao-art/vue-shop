@@ -8,6 +8,8 @@ const instance = axios.create({
   timeout: 5000,                  // 请求超时时间
   transformRequest: [function(data, headers) {
     let ret = ''
+    console.log(data)
+    data.token = store.getters.token
     for (let it in data) {
       if(typeof data[it] == 'object') {
         for (let param in data[it]) {
@@ -45,7 +47,7 @@ instance.interceptors.request.use(config => {
   return config
 }, error => {
   // Do something with request error
-  console.log(error) // for debug
+  console.log('from here: ' + error) // for debug
   Promise.reject(error)
 })
 
@@ -95,6 +97,9 @@ instance.interceptors.response.use(
 //     }
   error => {
     //console.log('err' + error)// for debug
+    if(error.message) {
+      error.desc = error.message
+    }
     return Promise.reject(error)
   }
 )

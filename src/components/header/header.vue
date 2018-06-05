@@ -29,8 +29,6 @@
       }
     },
     mounted() {
-      console.log(this.navbarTitle)
-      console.log(this.gobackUrl)
     },
     props: ['signInUp', 'navbarTitle', 'leftArrow', 'leftText', 'rightText', 'noticeText', 'gobackUrl'],
     methods: {
@@ -42,7 +40,6 @@
         }
       },
       onClickRight() {
-        this.$toast('ok')
       }
     }
   }

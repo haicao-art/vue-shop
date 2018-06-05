@@ -1,8 +1,76 @@
 <template>
   <div class="loading_container">
-    <div class="load_img" :style="{ backgroundPositionY: -( positionY % 7 ) * 2.5 + 'rem' }"></div>
-    <svg class="load_ellipse" xmlns="http://www.w3.org/2000/svg" version="1.1">
-  		<ellipse cx="26" cy="10" rx="26" ry="10" style="fill:#ddd;stroke:none;"></ellipse>
+    <svg width="50%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-shopping">
+      <defs>
+        <clipPath id="cp" x="0" y="0" width="100" height="100">
+          <rect x="0" y="5" width="100" height="48"></rect>
+        </clipPath>
+      </defs>
+      <path d="M70,75.2H34.1l-4.1-18.4l-0.7-3l-1-4.7c0,0,0,0,0-0.1c0-0.1,0-0.1-0.1-0.2c0,0,0-0.1-0.1-0.1c0,0,0-0.1-0.1-0.1 c0,0-0.1-0.1-0.1-0.1c0,0-0.1-0.1-0.1-0.1c0,0-0.1-0.1-0.1-0.1c0,0,0,0-0.1-0.1L22.3,44c0-0.1,0-0.2,0-0.3c0-1.9-1.6-3.5-3.5-3.5 s-3.5,1.6-3.5,3.5c0,1.9,1.6,3.5,3.5,3.5c0.7,0,1.4-0.2,2-0.6l4.8,3.7L31.5,77c0,0,0,0,0,0l-5.6,7.7c-0.3,0.5-0.4,1.1-0.1,1.6 c0.3,0.5,0.8,0.8,1.3,0.8h4c-0.8,0.8-1.3,1.9-1.3,3.2c0,2.6,2.1,4.7,4.7,4.7c2.6,0,4.7-2.1,4.7-4.7c0-1.2-0.5-2.3-1.3-3.2h29 c-0.8,0.8-1.3,1.9-1.3,3.2c0,2.6,2.1,4.7,4.7,4.7c2.6,0,4.7-2.1,4.7-4.7c0-1.2-0.5-2.3-1.3-3.2H77c0.8,0,1.5-0.7,1.5-1.5 s-0.7-1.5-1.5-1.5H30l4.3-6h36.8c0.7,0,1.3-0.5,1.4-1.1l7.5-27.3c0.2-0.8-0.2-1.6-1-1.8c-0.8-0.2-1.6,0.2-1.8,1l-1.3,4.7l-0.8,3" ng-attr-fill="#bbbbbb" fill="#bbbbbb"></path>
+      <polygon points="31.3,53.1 35.7,73.2 68.5,73.2 74,53.1" ng-attr-fill="#bbbbbb" fill="#bbbbbb"></polygon>
+      <g clip-path="url(#cp)">
+        <g transform="translate(0 73.6646)">
+          <g transform="translate(50,41)">
+            <path d="M6.5-6.7C6.1-6.9,5.7-7.2,5.3-7.4C5-7.5,4.6-7.7,4.3-7.8C3.1-2.2-4-3.7-2.9-9.3c-0.4,0-0.7,0-1.1,0 c-0.5,0-1,0.1-1.4,0.2c-1.8,0.3-3.6,0.9-5.3,1.8l1.1,4.2l3.1-0.8L-8.7,6.9L3.2,9.3L5.4-1.5l2.5,2l2.7-3.4C9.5-4.4,8.1-5.7,6.5-6.7z" ng-attr-fill="#bbbbbb" fill="#bbbbbb" transform="rotate(347.18)">
+              <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform>
+            </path>
+          </g>
+          <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+        </g>
+        <g transform="translate(0 73.6646)">
+          <g transform="translate(35,17)">
+            <path d="M3.4-5.3L2.5-5l0.8-2.3L1.1-6.3l-1.2-2.2l-1.6,4.6l-4.6-1.6l0.9,2.3l-2.2,1.2l2.3,0.8L-6-0.9 c-0.6,0.3-0.8,0.9-0.5,1.5l1,2.1C-5.2,3.4-4.6,3.6-4,3.3l0.1-0.1l2.1,4.5C-1.4,8.4-0.7,8.7,0,8.3l1.7-0.8l1.7-0.8L5,5.9l1.7-0.8 C7.4,4.8,7.7,4,7.4,3.3L5.2-1.1l0.1-0.1c0.6-0.3,0.8-0.9,0.5-1.5l-1-2.1C4.6-5.4,3.9-5.6,3.4-5.3z" ng-attr-fill="#ff5c5c" fill="#ff5c5c" transform="rotate(347.18)"><animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform>
+            </path>
+          </g>
+          <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+        </g>
+        <g transform="translate(0 73.6646)">
+          <g transform="translate(66,26)">
+            <path d="M-4.5-3.7L1.9-6l0.5-0.2L2-7.2l-6.9,2.5C-5.7-4.4-6.1-3.5-6-2.7c0,0.1,0,0.2,0.1,0.3l3,8.2 C-2.5,6.9-1.3,7.4-0.2,7l5.6-2C5.9,4.8,6.2,4.2,6,3.7L3.2-3.9l-0.4-1L2.4-4.7L1.9-4.5l-3.2,1.2l-2.7,1c-0.3,0.1-0.6,0-0.8-0.2 c-0.1-0.1-0.1-0.1-0.1-0.2C-5.1-3.1-4.9-3.6-4.5-3.7z" ng-attr-fill="#7ac43c" fill="#7ac43c" transform="rotate(347.18)">
+            <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9" repeatCount="indefinite" dur="1.9s"></animateTransform>
+          </path>
+          </g>
+          <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+        </g>
+        <g transform="translate(0 73.6646)">
+          <g transform="translate(55,6)">
+            <polygon points="0,-4.9 1.6,-1.7 5.1,-1.1 2.6,1.3 3.2,4.9 0,3.2 -3.2,4.9 -2.6,1.3 -5.1,-1.1 -1.6,-1.7" ng-attr-fill="#f2b736}" fill="#f2b736" transform="rotate(347.18)">
+              <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform>
+            </polygon>
+          </g>
+          <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+        </g>
+      </g>
+      <g clip-path="url(#cp)">
+        <g transform="translate(0,-75)">
+          <g transform="translate(0 73.6646)">
+            <g transform="translate(50,41)">
+              <path d="M6.5-6.7C6.1-6.9,5.7-7.2,5.3-7.4C5-7.5,4.6-7.7,4.3-7.8C3.1-2.2-4-3.7-2.9-9.3c-0.4,0-0.7,0-1.1,0 c-0.5,0-1,0.1-1.4,0.2c-1.8,0.3-3.6,0.9-5.3,1.8l1.1,4.2l3.1-0.8L-8.7,6.9L3.2,9.3L5.4-1.5l2.5,2l2.7-3.4C9.5-4.4,8.1-5.7,6.5-6.7z" ng-attr-fill="#bbbbbb" fill="#bbbbbb" transform="rotate(347.18)"><animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform></path>
+            </g>
+            <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+          </g>
+          <g transform="translate(0 73.6646)">
+            <g transform="translate(35,17)">
+              <path d="M3.4-5.3L2.5-5l0.8-2.3L1.1-6.3l-1.2-2.2l-1.6,4.6l-4.6-1.6l0.9,2.3l-2.2,1.2l2.3,0.8L-6-0.9 c-0.6,0.3-0.8,0.9-0.5,1.5l1,2.1C-5.2,3.4-4.6,3.6-4,3.3l0.1-0.1l2.1,4.5C-1.4,8.4-0.7,8.7,0,8.3l1.7-0.8l1.7-0.8L5,5.9l1.7-0.8 C7.4,4.8,7.7,4,7.4,3.3L5.2-1.1l0.1-0.1c0.6-0.3,0.8-0.9,0.5-1.5l-1-2.1C4.6-5.4,3.9-5.6,3.4-5.3z" ng-attr-fill="#ff5c5c" fill="#ff5c5c" transform="rotate(347.18)"><animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform></path>
+            </g>
+            <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+          </g>
+          <g transform="translate(0 73.6646)">
+            <g transform="translate(66,26)">
+              <path d="M-4.5-3.7L1.9-6l0.5-0.2L2-7.2l-6.9,2.5C-5.7-4.4-6.1-3.5-6-2.7c0,0.1,0,0.2,0.1,0.3l3,8.2 C-2.5,6.9-1.3,7.4-0.2,7l5.6-2C5.9,4.8,6.2,4.2,6,3.7L3.2-3.9l-0.4-1L2.4-4.7L1.9-4.5l-3.2,1.2l-2.7,1c-0.3,0.1-0.6,0-0.8-0.2 c-0.1-0.1-0.1-0.1-0.1-0.2C-5.1-3.1-4.9-3.6-4.5-3.7z" ng-attr-fill="#7ac43c" fill="#7ac43c" transform="rotate(347.18)"><animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform></path>
+            </g>
+            <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+          </g>
+          <g transform="translate(0 73.6646)">
+            <g transform="translate(55,6)">
+              <polygon points="0,-4.9 1.6,-1.7 5.1,-1.1 2.6,1.3 3.2,4.9 0,3.2 -3.2,4.9 -2.6,1.3 -5.1,-1.1 -1.6,-1.7" ng-attr-fill="#f2b736" fill="#f2b736" transform="rotate(347.18)">
+                <animateTransform attributeName="transform" type="rotate" keyTimes="0;1" values="0;360" ng-attr-dur="1.9s" repeatCount="indefinite" dur="1.9s"></animateTransform>
+              </polygon>
+            </g>
+            <animateTransform attributeName="transform" type="translate" keyTimes="0;1" values="0 0;0 75" ng-attr-dur="3.8s" repeatCount="indefinite" dur="3.8s"></animateTransform>
+          </g>
+        </g>
+      </g>
     </svg>
   </div>
 </template>
@@ -13,17 +81,11 @@
     },
     data() {
       return {
-        positionY: 0,
-        timer: null
       }
     },
     mounted() {
-      this.timer = setInterval(() => {
-    		this.positionY ++;
-    	}, 600)
     },
     beforeDestroy(){
-    	clearInterval(this.timer);
     },
     props: [
 
@@ -34,42 +96,11 @@
 </script>
 
 <style lang="less" scoped>
-  @keyframes load {
-    0%   {transform: translateY(0px);}
-		50%  {transform: translateY(-50px);}
-		100% {transform: translateY(0px);}
-  }
-
-  @keyframes ellipse {
-    0%   {transform: scale(1);}
-		50%  {transform: scale(0.3);}
-		100% {transform: scale(1);}
-  }
   .loading_container{
-  	position: fixed;
-  	top: 50%;
-  	left: 50%;
-  	transform: translate(-50%, -50%);
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-  .load_img {
-    position: relative;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    vertical-align: middle;
     height: 100%;
-    background: url(../../assets/images/icon_loading.png) no-repeat 0 0;
-    background-size: 2.5rem auto;
-    transform: translateY(0px);
-    animation: load .6s infinite ease-in-out;
-    z-index: 11;
-  }
-  .load_ellipse{
-    position: absolute;
-    width: 2.6rem;
-    height: 2rem;
-    top: 2.2rem;
-    left: 0.2rem;
-    z-index: 10;
-    animation: ellipse .6s infinite ease-in-out;
   }
 </style>

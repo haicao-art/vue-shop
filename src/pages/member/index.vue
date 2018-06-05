@@ -106,9 +106,9 @@
 
 <style lang="less" scoped>
   .member_container {
-    height: 100%;
+    min-height: 100%;
     .content {
-      height: 100%;
+      min-height: 100%;
     }
     .member {
       &-detail {
