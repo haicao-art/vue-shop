@@ -63,10 +63,10 @@
           <li v-if="order.over_time > 0"><span>完成时间:</span>{{order.over_time}}</li>
         </ul>
         <ul class="info" v-if="order_pay">
-          <li><span>支付方式:</span>{{order_pay.pay_type}}</li>
-          <li><span>支付金额:</span>{{order.pay_money}}</li>
-          <li><span>支付流水:</span>{{order.pay_serial_number}}</li>
-          <li v-if="order.send_time > 0"><span>支付时间:</span>{{order.pay_time}}</li>
+          <li><span>支付方式:</span>{{order_pay.pay_title}}</li>
+          <li><span>支付金额:</span>{{formatPrice(order_pay.pay_money)}}</li>
+          <li><span>支付流水:</span>{{order_pay.pay_serial_number}}</li>
+          <li v-if="order.send_time > 0"><span>支付时间:</span>{{order_pay.pay_time}}</li>
         </ul>
       </section>
 

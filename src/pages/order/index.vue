@@ -48,6 +48,7 @@
           </router-link>
           <div class="orders-footer">
             <van-button size="small" type="danger" v-if="order.order_status == '待付款'">立即支付</van-button>
+            <van-button size="small" type="danger" v-if="order.order_status == '待发货'">取消订单</van-button>
             <van-button size="small" type="danger" v-if="order.order_status == '已完成' || order.order_status == '已取消'">删除订单</van-button>
             <van-button size="small" v-if="order.order_status == '已完成' || order.order_status == '已取消'" @click="goto({path: '/order/logistics', query: {id: order.id}})">查看物流</van-button>
           </div>

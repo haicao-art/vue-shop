@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
       console.log(error)
     })
     setToken('b|26dac133a3532531e3004c7cdfa038')
-    return false
+    //return false
   }
 })
 
